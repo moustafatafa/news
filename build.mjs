@@ -8,7 +8,7 @@ import { JSDOM, VirtualConsole } from "jsdom";
 import { Readability } from "@mozilla/readability";
 import fs from "node:fs";
 
-const UA = "Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1";
+const UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36";
 const MAX_PAGES = 260;          // article pages fetched per run
 const KEEP_DAYS = 3;
 const vc = new VirtualConsole();  // silence jsdom css errors
@@ -30,7 +30,9 @@ const SOURCES = [
    {u:"https://www.youm7.com/rss/SectionRss?SectionID=97", s:"eg"},
    {u:"https://www.youm7.com/rss/SectionRss?SectionID=298", s:"eg", cat:"fb"},
    {u:"https://www.youm7.com/rss/SectionRss?SectionID=296", s:"eg"},
-   {u:"https://www.youm7.com/rss/SectionRss?SectionID=88", s:"ar"}]},
+   {u:"https://www.youm7.com/rss/SectionRss?SectionID=88", s:"ar"}], pages:[
+   {u:"https://www.youm7.com/", rx:/youm7\.com\/story\/\d{4}\/\d+\/\d+\/[^?#]+\/\d+/i, s:"eg"},
+   {u:"https://www.youm7.com/Section/%D8%A7%D9%84%D8%B1%D9%8A%D8%A7%D8%B6%D8%A9/298/1", rx:/youm7\.com\/story\/\d{4}\/\d+\/\d+\/[^?#]+\/\d+/i, s:"eg", cat:"fb"}]},
  {id:"masryalyoum", name:"المصري اليوم", color:"#1d4ed8", feeds:[{u:"https://www.almasryalyoum.com/rss/rssfeeds", s:"eg"}]},
  {id:"almal", name:"جريدة المال", color:"#b45309", feeds:[], pages:[
    {u:"https://almalnews.com/category/transportation/1/", rx:/almalnews\.com\/\d{6,}\//i, s:"eg", cat:"tr"},
@@ -44,7 +46,8 @@ const SOURCES = [
    {u:"https://www.shorouknews.com/sports/local-sports/rss", s:"eg", cat:"fb"},
    {u:"https://www.shorouknews.com/sports/international/rss", s:"ar", cat:"fb"},
    {u:"https://www.shorouknews.com/Politics/world/rss", s:"ar"},
-   {u:"https://www.shorouknews.com/auto/rss", s:"eg", cat:"tr"}]},
+   {u:"https://www.shorouknews.com/auto/rss", s:"eg", cat:"tr"}], pages:[
+   {u:"https://www.shorouknews.com/", rx:/shorouknews\.com\/news\/view\.aspx\?cdate=/i, s:"eg"}]},
  {id:"masrawy", name:"مصراوي", color:"#ef4444", feeds:[], pages:[
    {u:"https://www.masrawy.com/", rx:/masrawy\.com\/[^?#]*details\/\d{4}\/\d+\/\d+\/\d+/i, s:"eg"},
    {u:"https://www.masrawy.com/sports", rx:/masrawy\.com\/[^?#]*details\/\d{4}\/\d+\/\d+\/\d+/i, s:"eg", cat:"fb"}]},
