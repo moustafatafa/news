@@ -1,47 +1,48 @@
 {
- "updated": 1794057831902,
+ "updated": 1794060736613,
  "stat": {
   "ahramsport": 10,
-  "filgoal": 42,
   "yallakora": 45,
   "youm7": 200,
-  "masryalyoum": 20,
-  "almal": 195,
+  "filgoal": 43,
+  "masryalyoum": 33,
+  "almal": 194,
   "shorouk": 94,
-  "elwatan": 40,
-  "masrawy": 78,
+  "elwatan": 39,
   "alborsa": 20,
   "cnn": 20,
+  "masrawy": 79,
   "bbc": 25,
-  "aljazeera": 25,
   "skynews": 40,
+  "aljazeera": 25,
   "france24": 24,
   "independent": 40,
-  "amwal": 0,
   "dw": 40,
-  "aawsat": 40,
+  "amwal": 0,
   "okaz": 40,
   "anadolu": 30,
   "rt": 40,
+  "aawsat": 40,
   "dostor": 0,
+  "euronews": 40,
   "ahram": 0,
   "akhbarelyom": 40,
-  "alarabiya": 40,
-  "euronews": 40
+  "alarabiya": 40
  },
  "errs": {
   "amwal": "0 items: 276688 <!DOCTYPE html> <html dir=\"rtl\" lang=\"ar\"> <head> <meta charset=\"UTF-8\"> <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\"> <meta name=\"viewport\"",
   "dostor": "blocked page",
   "ahram": "blocked page",
-  "alarabiya": "0 items: 180141 <html lang=\"ar\" dir=\"rtl\"> <head> <meta charset=\"utf-8\"> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> <title>خطوة إضافية و"
+  "alarabiya": "0 items: 180140 <html lang=\"ar\" dir=\"rtl\"> <head> <meta charset=\"utf-8\"> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> <title>خطوة إضافية و"
  },
  "pages": 260,
  "ok": 260,
  "proxied": [
-  "gate.ahram.org.eg",
   "akhbarelyom.com",
+  "gate.ahram.org.eg",
   "www.dostor.org",
   "www.alarabiya.net",
-  "arabic.euronews.com"
+  "arabic.euronews.com",
+  "www.youm7.com"
  ]
 }
