@@ -15,12 +15,15 @@ const vc = new VirtualConsole();  // silence jsdom css errors
 
 /* ---------------- SOURCES ---------------- */
 const SOURCES = [
+ // ---- كورة ----
  {id:"yallakora", name:"يلا كورة", color:"#16a34a", feeds:[], pages:[
    {u:"https://www.yallakora.com/", rx:/yallakora\.com\/[^?#]*\/news\/\d+/i, s:"eg", cat:"fb"},
    {u:"https://www.yallakora.com/newslisting/%d8%a7%d9%84%d8%a3%d8%ae%d8%a8%d8%a7%d8%b1", rx:/yallakora\.com\/[^?#]*\/news\/\d+/i, s:"eg", cat:"fb"}]},
  {id:"filgoal", name:"في الجول", color:"#0f766e", feeds:[], pages:[
    {u:"https://www.filgoal.com/", rx:/filgoal\.com\/articles\/\d+/i, s:"eg", cat:"fb"},
    {u:"https://www.filgoal.com/articles/", rx:/filgoal\.com\/articles\/\d+/i, s:"eg", cat:"fb"}]},
+ {id:"ahramsport", name:"الأهرام الرياضي", color:"#0369a1", feeds:[{u:"https://alahramalriyadi.com/feed/", s:"eg", cat:"fb"}]},
+ // ---- مصر ----
  {id:"youm7", name:"اليوم السابع", color:"#c8102e", feeds:[
    {u:"https://www.youm7.com/rss/SectionRss?SectionID=65", s:"eg"},
    {u:"https://www.youm7.com/rss/SectionRss?SectionID=319", s:"eg", cat:"pol"},
@@ -28,56 +31,84 @@ const SOURCES = [
    {u:"https://www.youm7.com/rss/SectionRss?SectionID=298", s:"eg", cat:"fb"},
    {u:"https://www.youm7.com/rss/SectionRss?SectionID=296", s:"eg"},
    {u:"https://www.youm7.com/rss/SectionRss?SectionID=88", s:"ar"}]},
+ {id:"masryalyoum", name:"المصري اليوم", color:"#1d4ed8", feeds:[{u:"https://www.almasryalyoum.com/rss/rssfeeds", s:"eg"}]},
+ {id:"almal", name:"جريدة المال", color:"#b45309", feeds:[], pages:[
+   {u:"https://almalnews.com/category/transportation/1/", rx:/almalnews\.com\/\d{6,}\//i, s:"eg", cat:"tr"},
+   {u:"https://almalnews.com/category/economy-markets/1/", rx:/almalnews\.com\/\d{6,}\//i, s:"eg", cat:"eco"},
+   {u:"https://almalnews.com/category/stocks/1/", rx:/almalnews\.com\/\d{6,}\//i, s:"eg", cat:"eco"},
+   {u:"https://almalnews.com/category/technology/1/", rx:/almalnews\.com\/\d{6,}\//i, s:"eg", cat:"tech"},
+   {u:"https://almalnews.com/latest-news/1/", rx:/almalnews\.com\/\d{6,}\//i, s:"eg"}]},
  {id:"shorouk", name:"الشروق", color:"#0b6e4f", feeds:[
    {u:"https://www.shorouknews.com/egypt/rss", s:"eg"},
    {u:"https://www.shorouknews.com/Economy/rss", s:"eg", cat:"eco"},
    {u:"https://www.shorouknews.com/sports/local-sports/rss", s:"eg", cat:"fb"},
    {u:"https://www.shorouknews.com/sports/international/rss", s:"ar", cat:"fb"},
    {u:"https://www.shorouknews.com/Politics/world/rss", s:"ar"},
-   {u:"https://www.shorouknews.com/Politics/arab/rss", s:"ar"},
    {u:"https://www.shorouknews.com/auto/rss", s:"eg", cat:"tr"}]},
- {id:"masryalyoum", name:"المصري اليوم", color:"#1d4ed8", feeds:[{u:"https://www.almasryalyoum.com/rss/rssfeeds", s:"eg"}]},
- {id:"masrawy", name:"مصراوي", color:"#ef4444", feeds:[], pages:[{u:"https://www.masrawy.com/", rx:/masrawy\.com\/[^?#]*details\/\d{4}\/\d+\/\d+\/\d+/i, s:"eg"}]},
+ {id:"masrawy", name:"مصراوي", color:"#ef4444", feeds:[], pages:[
+   {u:"https://www.masrawy.com/", rx:/masrawy\.com\/[^?#]*details\/\d{4}\/\d+\/\d+\/\d+/i, s:"eg"},
+   {u:"https://www.masrawy.com/sports", rx:/masrawy\.com\/[^?#]*details\/\d{4}\/\d+\/\d+\/\d+/i, s:"eg", cat:"fb"}]},
  {id:"elwatan", name:"الوطن", color:"#b91c1c", feeds:[], pages:[{u:"https://www.elwatannews.com/", rx:/elwatannews\.com\/news\/details\/\d+/i, s:"eg"}]},
  {id:"akhbarelyom", name:"أخبار اليوم", color:"#9a3412", feeds:[], pages:[{u:"https://akhbarelyom.com/", rx:/akhbarelyom\.com\/news\/newdetails\/\d+/i, s:"eg"}]},
  {id:"ahram", name:"بوابة الأهرام", color:"#1e3a8a", feeds:[], pages:[{u:"https://gate.ahram.org.eg/", rx:/ahram\.org\.eg\/News\/\d+\.aspx/i, s:"eg"}]},
  {id:"dostor", name:"الدستور", color:"#7c3aed", feeds:[{u:"https://www.dostor.org/rss.aspx", s:"eg"}]},
- {id:"ahramsport", name:"الأهرام الرياضي", color:"#0369a1", feeds:[{u:"https://alahramalriyadi.com/feed/", s:"eg", cat:"fb"}]},
+ {id:"alborsa", name:"البورصة", color:"#0e7490", feeds:[{u:"https://alborsaanews.com/feed", s:"eg", cat:"eco"}]},
  {id:"amwal", name:"أموال الغد", color:"#0d9488", feeds:[{u:"https://amwalalghad.com/feed/", s:"eg", cat:"eco"}]},
+ // ---- عربي وعالمي ----
+ {id:"cnn", name:"سي إن إن عربية", color:"#dc2626", feeds:[{u:"https://arabic.cnn.com/api/v1/rss/rss.xml", s:"ar"}]},
  {id:"bbc", name:"بي بي سي عربي", color:"#b80000", feeds:[{u:"https://feeds.bbci.co.uk/arabic/rss.xml", s:"ar"}]},
  {id:"skynews", name:"سكاي نيوز عربية", color:"#0b4ea2", feeds:[{u:"https://www.skynewsarabia.com/rss.xml", s:"ar"}]},
  {id:"aljazeera", name:"الجزيرة", color:"#c48a12", feeds:[{u:"https://www.aljazeera.net/aljazeerarss/a7c186be-1baa-4bd4-9d80-a84db769f779/73d0e1b4-532f-45ef-b135-bfdff8b8cab9", s:"ar"}]},
  {id:"alarabiya", name:"العربية", color:"#0f766e", feeds:[{u:"https://www.alarabiya.net/feed/rss2/ar.xml", s:"ar"}], pages:[{u:"https://www.alarabiya.net/", rx:/alarabiya\.net\/[^?#]*\/20\d\d\/\d\d\/\d\d\//, s:"ar"}]},
  {id:"france24", name:"فرانس 24", color:"#0ea5e9", feeds:[{u:"https://www.france24.com/ar/rss", s:"ar"}]},
- {id:"cnn", name:"سي إن إن عربية", color:"#dc2626", feeds:[{u:"https://arabic.cnn.com/api/v1/rss/rss.xml", s:"ar"}]},
- {id:"rt", name:"آر تي عربي", color:"#15803d", feeds:[{u:"https://arabic.rt.com/rss/", s:"ar"}]},
  {id:"dw", name:"دويتشه فيله", color:"#0c4a6e", feeds:[{u:"https://rss.dw.com/xml/rss-ar-all", s:"ar"}]},
+ {id:"euronews", name:"يورونيوز", color:"#1e40af", feeds:[{u:"https://arabic.euronews.com/rss?format=mrss&level=theme&name=news", s:"ar"}]},
+ {id:"independent", name:"اندبندنت عربية", color:"#be123c", feeds:[{u:"https://www.independentarabia.com/rss.xml", s:"ar"}]},
+ {id:"rt", name:"آر تي عربي", color:"#15803d", feeds:[{u:"https://arabic.rt.com/rss/", s:"ar"}]},
+ {id:"anadolu", name:"الأناضول", color:"#1d4ed8", feeds:[{u:"https://www.aa.com.tr/ar/rss/default?cat=guncel", s:"ar"}]},
  {id:"aawsat", name:"الشرق الأوسط", color:"#065f46", feeds:[{u:"https://aawsat.com/feed", s:"ar"}]},
  {id:"okaz", name:"عكاظ", color:"#1f2937", feeds:[{u:"https://www.okaz.com.sa/rssFeed/0", s:"ar"}]},
 ];
 
 /* ---------------- CLASSIFY ---------------- */
 const COUNTRIES = [
- ["eg",["مصر","المصري","المصرية","القاهرة","السيسي","مدبولي","الجيزة","الإسكندرية","الأهلي","الزمالك","بيراميدز"]],
- ["sa",["السعودية","السعودي","الرياض","جدة","بن سلمان","الهلال","النصر"]],
- ["ae",["الإمارات","الإماراتي","أبوظبي","أبو ظبي","دبي"]],
- ["us",["أمريكا","الأمريكي","الأمريكية","واشنطن","ترامب","الولايات المتحدة","البيت الأبيض","الكونغرس"]],
- ["gb",["بريطانيا","البريطاني","البريطانية","إنجلترا","الإنجليزي","لندن","ليفربول","أرسنال","آرسنال","مانشستر","تشيلسي","توتنهام"]],
- ["es",["إسبانيا","الإسباني","الإسبانية","مدريد","برشلونة","الليغا","الليجا"]],
- ["fr",["فرنسا","الفرنسي","الفرنسية","باريس","ماكرون","سان جيرمان"]],
- ["de",["ألمانيا","الألماني","الألمانية","برلين","بايرن","دورتموند"]],
- ["it",["إيطاليا","الإيطالي","الإيطالية","روما","ميلان","يوفنتوس","إنتر","نابولي"]],
- ["tr",["تركيا","التركي","التركية","أنقرة","إسطنبول","أردوغان","فنربخشة","جالطة سراي","جلطة سراي","بشكتاش","طرابزون"]],
- ["cn",["الصين","الصيني","الصينية","بكين"]],
- ["ru",["روسيا","الروسي","الروسية","موسكو","بوتين","الكرملين"]],
- ["ps",["فلسطين","الفلسطيني","الفلسطينية","غزة","الضفة","القدس","حماس","رفح"]],
- ["ir",["إيران","الإيراني","الإيرانية","طهران"]],
+ ["eg",["مصر","المصري","المصرية","المصريين","القاهرة","السيسي","مدبولي","الجيزة","الإسكندرية","الأهلي","الزمالك","بيراميدز","قناة السويس"]],
+ ["sa",["السعودية","السعودي","الرياض","جدة","بن سلمان","المملكة العربية","الهلال","النصر","روشن"]],
+ ["ae",["الإمارات","الإماراتي","الإماراتية","أبوظبي","أبو ظبي","دبي","بن زايد"]],
+ ["qa",["قطر","القطري","القطرية","الدوحة"]],
+ ["kw",["الكويت","الكويتي","الكويتية"]],
+ ["iq",["العراق","العراقي","العراقية","بغداد","السوداني"]],
+ ["sy",["سوريا","السوري","السورية","دمشق","حلب","الشرع"]],
+ ["lb",["لبنان","اللبناني","اللبنانية","بيروت","حزب الله"]],
+ ["jo",["الأردن","الأردني","الأردنية","عمّان"]],
+ ["ps",["فلسطين","الفلسطيني","الفلسطينية","غزة","الضفة","القدس","حماس","رفح","خان يونس"]],
+ ["il",["إسرائيل","الإسرائيلي","الإسرائيلية","تل أبيب","نتنياهو","الاحتلال"]],
+ ["ly",["ليبيا","الليبي","الليبية","طرابلس","بنغازي"]],
+ ["sd",["السودان","السوداني","السودانية","الخرطوم","الدعم السريع","الفاشر"]],
+ ["ma",["المغرب","المغربي","المغربية","الرباط","الدار البيضاء"]],
+ ["dz",["الجزائر","الجزائري","الجزائرية"]],
+ ["tn",["تونس","التونسي","التونسية"]],
+ ["ye",["اليمن","اليمني","اليمنية","صنعاء","الحوثي","الحوثيين","عدن"]],
+ ["us",["أمريكا","أميركا","الأمريكي","الأميركي","الأمريكية","الأميركية","واشنطن","ترامب","الولايات المتحدة","البيت الأبيض","الكونغرس","البنتاغون","نيويورك","فانس","روبيو"]],
+ ["gb",["بريطانيا","البريطاني","البريطانية","إنجلترا","الإنجليزي","لندن","ستارمر","ليفربول","أرسنال","آرسنال","مانشستر","تشيلسي","توتنهام","البريميرليج"]],
+ ["es",["إسبانيا","الإسباني","الإسبانية","مدريد","برشلونة","سانشيز","كتالونيا","فالنسيا","إشبيلية","الليغا","الليجا","أتلتيكو"]],
+ ["fr",["فرنسا","الفرنسي","الفرنسية","باريس","ماكرون","الإليزيه","مارسيليا","ليون","سان جيرمان"]],
+ ["de",["ألمانيا","الألماني","الألمانية","برلين","ميرتس","ميونخ","بايرن","دورتموند","البوندسليجا","البوندسليغا"]],
+ ["it",["إيطاليا","الإيطالي","الإيطالية","روما","ميلوني","ميلان","يوفنتوس","إنتر","نابولي","الكالتشيو"]],
+ ["tr",["تركيا","التركي","التركية","أنقرة","إسطنبول","أردوغان","فنربخشة","جالطة سراي","غلطة سراي","بشكتاش","طرابزون"]],
+ ["ru",["روسيا","الروسي","الروسية","موسكو","بوتين","الكرملين","لافروف"]],
  ["ua",["أوكرانيا","الأوكراني","الأوكرانية","كييف","زيلينسكي"]],
+ ["cn",["الصين","الصيني","الصينية","بكين","شي جين بينغ"]],
+ ["ir",["إيران","الإيراني","الإيرانية","طهران","خامنئي","بزشكيان","عراقجي"]],
+ ["in",["الهند","الهندي","الهندية","نيودلهي","مودي"]],
+ ["jp",["اليابان","الياباني","اليابانية","طوكيو"]],
 ];
 const KW = {
  fb:/الأهلي|الزمالك|بيراميدز|الدوري|مباراة|مباريات|المنتخب|منتخب|ريال مدريد|برشلونة|ليفربول|محمد صلاح|كأس|هدف|أهداف|مدرب|لاعب|كرة القدم|دوري أبطال|الفيفا|فيفا|كاف|الإسماعيلي|المصري البورسعيدي|سيراميكا|تشكيل|ركلة|الملعب|نادي/,
- eco:/الدولار|الذهب|البورصة|البنك|بنك|الاقتصاد|اقتصاد|التضخم|أسعار|سعر|النفط|الفائدة|الجنيه|استثمار|الاستثمار|صندوق النقد|الصادرات|الواردات|الموازنة|الضرائب|شركة|الأسهم|العملات|اليورو/,
- tr:/مترو|المترو|قطار|القطارات|السكة الحديد|السكك الحديدية|وزارة النقل|وزير النقل|كامل الوزير|الطيران|مطار|ميناء|موانئ|مونوريل|المونوريل|الطرق|محور|كوبري|أتوبيس|الملاحة|قناة السويس|سفن/
+ eco:/الدولار|الذهب|البورصة|البنك|بنك|الاقتصاد|اقتصاد|التضخم|أسعار|سعر|النفط|الفائدة|الجنيه|استثمار|الاستثمار|صندوق النقد|الصادرات|الواردات|الموازنة|الضرائب|شركة|الأسهم|العملات|اليورو|أرباح|مليار|مليون دولار|التمويل|الجمارك/,
+ tr:/مترو|المترو|قطار|القطارات|السكة الحديد|السكك الحديدية|سكك حديد|وزارة النقل|وزير النقل|كامل الوزير|الطيران|مطار|ميناء|موانئ|مونوريل|المونوريل|الطرق|محور|كوبري|أتوبيس|الملاحة|قناة السويس|سفن|الشحن|حاويات|سيارات|السيارات|القطار الكهربائي/,
+ tech:/تكنولوجيا|التكنولوجيا|الذكاء الاصطناعي|ذكاء اصطناعي|آيفون|أيفون|أبل|جوجل|سامسونج|مايكروسوفت|ميتا|واتساب|فيسبوك|إنستجرام|تيك توك|هاتف|هواتف|الإنترنت|الاتصالات|السيبراني|رقائق|إنفيديا|تشات جي بي تي|روبوت|تطبيق/,
+ art:/فنان|الفنانة|الفنان|فيلم|أفلام|مسلسل|سينما|مهرجان|أغنية|مطرب|المطربة|ممثل|الممثلة|دراما|حفل|النجمة|النجم|الموسيقار|ألبوم/
 };
 const FB_LOCAL=/الأهلي|الزمالك|بيراميدز|الدوري المصري|المنتخب المصري|منتخب مصر|الفراعنة|الإسماعيلي|المصري البورسعيدي|سيراميكا|إنبي|مودرن سبورت|كأس مصر|البنك الأهلي|سموحة|الاتحاد السكندري|غزل المحلة|طلائع الجيش|المقاولون|حسام حسن|بتروجت|الجونة|فاركو|الاتحاد المصري/;
 const FB_WORLD=/ريال مدريد|برشلونة|ليفربول|أرسنال|آرسنال|مانشستر|تشيلسي|توتنهام|بايرن|يوفنتوس|ميلان|إنتر|سان جيرمان|أبطال أوروبا|الدوري الإنجليزي|الدوري الإسباني|الدوري الإيطالي|الدوري الألماني|الدوري الفرنسي|الدوري التركي|الدوري السعودي|الهلال|النصر|رونالدو|ميسي/;
@@ -86,9 +117,10 @@ const EG_RX=/مصر|المصري|المصرية|القاهرة|السيسي|مد
 function classify(it, feed){
   const text = it.t+" "+(it.d||"");
   let cat = feed.cat||null;
-  if(!cat) cat = KW.fb.test(it.t)&&!KW.eco.test(it.t)?"fb": KW.tr.test(text)?"tr": KW.eco.test(it.t)?"eco":"pol";
-  else if(cat!=="fb" && KW.tr.test(it.t)) cat="tr";
-  const cs = COUNTRIES.filter(c=>c[1].some(w=>text.includes(w))).map(c=>c[0]);
+  if(!cat) cat = KW.fb.test(it.t)&&!KW.eco.test(it.t)?"fb": KW.tr.test(it.t)?"tr": KW.eco.test(it.t)?"eco": KW.tech.test(it.t)?"tech": KW.art.test(it.t)?"art":"pol";
+  else if(cat!=="fb" && cat!=="tr" && KW.tr.test(it.t)) cat="tr";
+  const ctext = " "+it.t+" "+String(it.d||"").slice(0,160)+" ";
+  const cs = COUNTRIES.filter(c=>c[1].some(w=>ctext.includes(w))).map(c=>c[0]);
   let loc;
   if(cat==="fb"){
     if(/yallakora\.com\/(egyptian-league|egypt-cup|egyptian-super-cup|african-|caf-|egypt-national|egyptian)/i.test(it.l)) loc=true;
@@ -100,20 +132,30 @@ function classify(it, feed){
 }
 
 /* ---------------- NET ---------------- */
+const PROXY=[u=>"https://api.allorigins.win/raw?url="+encodeURIComponent(u), u=>"https://api.codetabs.com/v1/proxy/?quest="+encodeURIComponent(u)];
+const blocked=new Map(); // host -> direct failures
+async function once(url,ms){
+  const c=new AbortController(); const t=setTimeout(()=>c.abort(),ms);
+  try{
+    const r=await fetch(url,{signal:c.signal,redirect:"follow",headers:{"User-Agent":UA,"Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8","Accept-Language":"ar,en;q=0.8"}});
+    if(!r.ok) throw new Error("HTTP "+r.status);
+    const buf=Buffer.from(await r.arrayBuffer());
+    if(buf.length<200) throw new Error("empty");
+    let cs=(r.headers.get("content-type")||"").match(/charset=([\w-]+)/i)?.[1];
+    if(!cs){ const head=buf.subarray(0,2000).toString("latin1"); cs=head.match(/charset=["']?([\w-]+)/i)?.[1]||head.match(/encoding=["']([\w-]+)/i)?.[1]; }
+    let txt; try{ txt=new TextDecoder(cs||"utf-8").decode(buf) }catch(e){ txt=buf.toString("utf8") }
+    if(/<title>\s*(Just a moment|Attention Required|Access denied)/i.test(txt.slice(0,3000))) throw new Error("blocked page");
+    return {text:txt, url:r.url};
+  } finally { clearTimeout(t) }
+}
 async function get(url, ms=15000){
-  for(let attempt=0; attempt<2; attempt++){
-    const c=new AbortController(); const t=setTimeout(()=>c.abort(),ms);
-    try{
-      const r=await fetch(url,{signal:c.signal,redirect:"follow",headers:{"User-Agent":UA,"Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8","Accept-Language":"ar,en;q=0.8"}});
-      if(!r.ok) throw new Error("HTTP "+r.status);
-      const buf=Buffer.from(await r.arrayBuffer());
-      let cs=(r.headers.get("content-type")||"").match(/charset=([\w-]+)/i)?.[1];
-      if(!cs){ const head=buf.subarray(0,2000).toString("latin1"); cs=head.match(/charset=["']?([\w-]+)/i)?.[1]||head.match(/encoding=["']([\w-]+)/i)?.[1]; }
-      let txt; try{ txt=new TextDecoder(cs||"utf-8").decode(buf) }catch(e){ txt=buf.toString("utf8") }
-      return {text:txt, url:r.url};
-    }catch(e){ if(attempt) throw e; await new Promise(r=>setTimeout(r,800)); }
-    finally{ clearTimeout(t) }
+  let host=""; try{host=new URL(url).host}catch(e){}
+  let err;
+  if((blocked.get(host)||0)<2){
+    try{ return await once(url,ms) }catch(e){ err=e; blocked.set(host,(blocked.get(host)||0)+1) }
   }
+  for(const px of PROXY){ try{ const r=await once(px(url),ms+8000); return {text:r.text,url} }catch(e){ err=e } }
+  throw err||new Error("fail");
 }
 async function pool(list, n, fn){ const q=[...list]; await Promise.all(Array.from({length:n},async()=>{ while(q.length){ const x=q.shift(); try{ await fn(x) }catch(e){} } })); }
 
@@ -260,12 +302,12 @@ async function main(){
   let prev={items:[]}; try{prev=JSON.parse(fs.readFileSync("data/state.json","utf8"))}catch(e){}
   const old=new Map((prev.items||[]).map(a=>[a.id,a]));
   const fails=prev.fails||{};
-  const stat={};
+  const stat={}, errs={};
   const raw=[];
   const jobs=[]; for(const s of SOURCES){ for(const f of s.feeds) jobs.push({s,f}); for(const p of (s.pages||[])) jobs.push({s,f:p,page:1}); }
   await pool(jobs,10,async({s,f,page})=>{
     try{ const {text}=await get(f.u); const items=page?scrapePage(text,f,s):parseFeed(text,f,s); raw.push(...items); stat[s.id]=(stat[s.id]||0)+items.length; }
-    catch(e){ console.log("source fail",s.id,f.u,e.message) }
+    catch(e){ console.log("source fail",s.id,f.u,e.message); errs[s.id]=(errs[s.id]?errs[s.id]+" | ":"")+e.message; stat[s.id]=stat[s.id]||0 }
   });
   console.log("raw items",raw.length, JSON.stringify(stat));
 
@@ -317,8 +359,10 @@ async function main(){
   const shown=out.filter(a=>a.img);
   console.log("final",out.length,"with image",shown.length);
   fs.writeFileSync("data/state.json",JSON.stringify({updated:now,items:out.map(({feed,...a})=>a),fails}));
-  const lean=shown.slice(0,650).map(a=>({id:a.id,t:a.t,l:a.l,ts:a.ts,d:(a.d||"").slice(0,150),img:a.img,src:a.src,cat:a.cat,loc:a.loc?1:0,cs:a.cs,b:a.b?1:0}));
+  const dec=u=>{try{return decodeURI(u)}catch(e){return u}};
+  const lean=shown.slice(0,900).map(a=>({id:a.id,t:a.t,l:dec(a.l),ts:a.ts,d:(a.d||"").slice(0,150),img:a.img,src:a.src,cat:a.cat,loc:a.loc?1:0,cs:a.cs,b:a.b?1:0}));
   fs.writeFileSync("data/news.json",JSON.stringify({updated:now,srcs,items:lean}));
+  fs.writeFileSync("data/status.json",JSON.stringify({updated:now,stat,errs,pages:need.length,ok,proxied:[...blocked.keys()]},null,1));
 }
 
 const only=process.argv[2];

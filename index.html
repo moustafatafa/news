@@ -28,7 +28,7 @@ img{display:block}
 #view{padding-bottom:calc(96px + var(--sb));min-height:100vh}
 
 /* header */
-header{position:sticky;top:0;z-index:30;background:var(--card);padding-top:var(--st);border-bottom:1px solid var(--line)}
+header{position:relative;z-index:30;background:var(--card);padding-top:var(--st);border-bottom:1px solid var(--line)}
 .hd{display:flex;align-items:center;gap:6px;height:58px}
 .brand{display:flex;align-items:center;gap:9px;flex:1;min-width:0}
 .brand img{width:36px;height:36px;border-radius:10px;flex:none}
@@ -42,6 +42,36 @@ header{position:sticky;top:0;z-index:30;background:var(--card);padding-top:var(-
 .live-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#16a34a;margin-left:4px;vertical-align:1px}
 .bar{height:2px;background:linear-gradient(90deg,var(--acc),#ff8a3d);width:0;transition:width .4s}
 
+/* date/clock + category tabs */
+.dt{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:2px 0 10px}
+.dt b{font-size:16.5px;font-weight:800;color:var(--ink)}
+.dt small{display:block;font-size:11.5px;color:var(--mute);margin-top:2px}
+.clk{font:800 19px/1 var(--font);direction:ltr;font-variant-numeric:tabular-nums;color:var(--brand);background:var(--soft);padding:8px 11px;border-radius:12px;white-space:nowrap}
+.ctabs{position:sticky;top:0;z-index:29;background:var(--card);border-bottom:1px solid var(--line);box-shadow:0 4px 12px -10px rgba(0,0,0,.3)}
+.ctabs .in{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;max-width:720px;margin:0 auto;padding:6px 10px}
+.ctabs .in::-webkit-scrollbar{display:none}
+.ctabs button{flex:none;padding:8px 14px;border-radius:999px;font-weight:800;font-size:14.5px;color:var(--ink2)}
+.ctabs button.on{background:var(--c,var(--acc));color:#fff}
+/* hero carousel */
+.hero{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;border-radius:var(--r);margin-top:12px;box-shadow:var(--sh);background:#111}
+.hero::-webkit-scrollbar{display:none}
+.slide{flex:0 0 100%;scroll-snap-align:start;position:relative;aspect-ratio:4/3.3;color:#fff;cursor:pointer}
+.slide .ph{position:absolute;inset:0;background:#222}
+.slide:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 35%,rgba(0,0,0,.88))}
+.slide .ct{position:absolute;inset:auto 0 0 0;padding:16px 16px 18px;z-index:1}
+.slide h3{font-size:20px;line-height:1.5;font-weight:800;margin:8px 0 0}
+.slide .meta,.slide .meta b{color:rgba(255,255,255,.9)}
+.slide .badge{display:inline-block;font-size:11.5px;font-weight:800;padding:3px 9px;border-radius:7px;background:var(--c);color:#fff}
+.dots{display:flex;justify-content:center;gap:5px;margin-top:8px}
+.dots i{width:6px;height:6px;border-radius:6px;background:var(--line);transition:all .3s}
+.dots i.on{width:18px;background:var(--acc)}
+/* section carousels */
+.car{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:6px 14px 14px;scroll-padding:0 14px}
+.car::-webkit-scrollbar{display:none}
+.cc2{flex:0 0 76%;max-width:300px;scroll-snap-align:start;cursor:pointer;min-width:0}
+.cc2 .ph{aspect-ratio:16/10;border-radius:12px}
+.cc2 h3{font-size:15px;line-height:1.6;margin:8px 0 5px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.sec2 .bh h2 small{font-size:12px;color:var(--mute);font-weight:600}
 /* tabs/chips */
 .chips{display:flex;gap:7px;overflow-x:auto;padding:12px 12px 2px;margin:0 -12px;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
@@ -92,7 +122,7 @@ header{position:sticky;top:0;z-index:30;background:var(--card);padding-top:var(-
 .empty b{display:block;color:var(--ink);font-size:17px;margin-bottom:6px}
 .sk{background:linear-gradient(90deg,var(--soft),var(--card),var(--soft));background-size:200% 100%;animation:sh 1.2s infinite;border-radius:12px}
 @keyframes sh{to{background-position:-200% 0}}
-.pill{position:fixed;top:calc(70px + var(--st));left:50%;transform:translate(-50%,-140px);opacity:0;pointer-events:none;z-index:40;background:var(--acc);color:#fff;font-weight:700;font-size:13.5px;padding:9px 16px;border-radius:999px;box-shadow:0 8px 20px -6px rgba(214,31,58,.6);transition:transform .3s}
+.pill{position:fixed;top:calc(64px + var(--st));left:50%;transform:translate(-50%,-140px);opacity:0;pointer-events:none;z-index:40;background:var(--acc);color:#fff;font-weight:700;font-size:13.5px;padding:9px 16px;border-radius:999px;box-shadow:0 8px 20px -6px rgba(214,31,58,.6);transition:transform .3s}
 .pill.on{transform:translate(-50%,0);opacity:1;pointer-events:auto}
 
 /* matches */
@@ -113,7 +143,7 @@ header{position:sticky;top:0;z-index:30;background:var(--card);padding-top:var(-
 .lo{width:30px;height:30px;border-radius:50%;flex:none;background:var(--soft);object-fit:contain;display:grid;place-items:center;font-size:12px;font-weight:800;color:var(--mute)}
 .mid{text-align:center;display:flex;flex-direction:column;align-items:center;gap:3px}
 .sc{display:flex;gap:7px;font:800 21px/1 var(--font);direction:rtl}
-.tmn{font-weight:800;font-size:17px;direction:ltr}
+.tmn{font-weight:800;font-size:15.5px;direction:ltr;white-space:nowrap}
 .st{white-space:nowrap;font-size:11px;font-weight:700;color:var(--mute);background:var(--soft);padding:2px 8px;border-radius:6px}
 .st.live{background:#fee2e2;color:#dc2626}.st.live:before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#dc2626;margin-left:4px;animation:pl 1s infinite}
 html.dark .st.live{background:#3b1418}
@@ -122,9 +152,9 @@ html.dark .st.live{background:#3b1418}
 .note{font-size:12px;color:var(--mute);text-align:center;margin:12px 0}
 
 /* countries */
-.cg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.cg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
 .cc{background:var(--card);border-radius:14px;box-shadow:var(--sh);padding:12px 6px;display:flex;flex-direction:column;align-items:center;gap:4px}
-.cc .f{font-size:30px;line-height:1}.cc b{font-size:14px}.cc small{font-size:11px;color:var(--mute)}
+.cc .f{font-size:28px;line-height:1}.cc b{font-size:13px}.cc small{font-size:11px;color:var(--mute)}
 .sg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
 .sgc{display:flex;align-items:center;gap:9px;background:var(--card);border-radius:13px;box-shadow:var(--sh);padding:10px;text-align:right}
 .sgc .sl{width:30px;height:30px;border-radius:9px;font-size:14px}
@@ -167,14 +197,16 @@ nav button.on{color:var(--acc)}
 <body>
 <header>
  <div class="wrap hd">
-  <div class="brand"><img src="icon-192.png" alt=""><div class="wm"><b>News</b><small id="sub"></small></div></div>
+  <div class="brand"><img src="icon-192.png" alt=""><div class="wm"><b>News</b></div></div>
   <button class="ib" id="bSearch" aria-label="بحث"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
   <button class="ib" id="bSaved" aria-label="المحفوظات"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M6 3h12v18l-6-4-6 4z"/></svg></button>
   <button class="ib" id="bRefresh" aria-label="تحديث"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 0 0-14.9-3.9L4 9"/><path d="M4 4v5h5"/><path d="M4 13a8 8 0 0 0 14.9 3.9L20 15"/><path d="M20 20v-5h-5"/></svg></button>
   <button class="ib" id="bTheme" aria-label="الوضع الليلي"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
  </div>
+ <div class="wrap dt"><div><b id="date"></b><small id="sub"></small></div><span class="clk" id="clock"></span></div>
  <div class="bar" id="bar"></div>
 </header>
+<div class="ctabs"><div class="in" id="ctabs"></div></div>
 <main class="wrap" id="view"></main>
 <nav><div class="in" id="nav"></div></nav>
 <section class="sheet" id="reader"></section>
@@ -182,9 +214,11 @@ nav button.on{color:var(--acc)}
 <div class="toast" id="toast"></div>
 <script>
 /* ============ CONFIG ============ */
-const SRCS_DEFAULT={yallakora:["يلا كورة","#16a34a"],filgoal:["في الجول","#0f766e"],youm7:["اليوم السابع","#c8102e"],shorouk:["الشروق","#0b6e4f"],masryalyoum:["المصري اليوم","#1d4ed8"],masrawy:["مصراوي","#ef4444"],elwatan:["الوطن","#b91c1c"],akhbarelyom:["أخبار اليوم","#9a3412"],ahram:["بوابة الأهرام","#1e3a8a"],dostor:["الدستور","#7c3aed"],ahramsport:["الأهرام الرياضي","#0369a1"],amwal:["أموال الغد","#0d9488"],bbc:["بي بي سي عربي","#b80000"],skynews:["سكاي نيوز عربية","#0b4ea2"],aljazeera:["الجزيرة","#c48a12"],alarabiya:["العربية","#0f766e"],france24:["فرانس 24","#0ea5e9"],cnn:["سي إن إن عربية","#dc2626"],rt:["آر تي عربي","#15803d"],dw:["دويتشه فيله","#0c4a6e"],aawsat:["الشرق الأوسط","#065f46"],okaz:["عكاظ","#1f2937"]};
-const CATS={pol:["أخبار وسياسة","#d61f3a"],eco:["اقتصاد ومال","#0d9488"],fb:["كورة","#15803d"],tr:["نقل ومواصلات","#2563eb"]};
-const COUNTRIES=[["eg","مصر","🇪🇬"],["sa","السعودية","🇸🇦"],["ae","الإمارات","🇦🇪"],["us","أمريكا","🇺🇸"],["gb","إنجلترا","🇬🇧"],["es","إسبانيا","🇪🇸"],["fr","فرنسا","🇫🇷"],["de","ألمانيا","🇩🇪"],["it","إيطاليا","🇮🇹"],["tr","تركيا","🇹🇷"],["cn","الصين","🇨🇳"],["ru","روسيا","🇷🇺"],["ps","فلسطين","🇵🇸"],["ir","إيران","🇮🇷"],["ua","أوكرانيا","🇺🇦"]];
+const SRCS_DEFAULT={yallakora:["يلا كورة","#16a34a"],filgoal:["في الجول","#0f766e"],youm7:["اليوم السابع","#c8102e"],shorouk:["الشروق","#0b6e4f"],masryalyoum:["المصري اليوم","#1d4ed8"],masrawy:["مصراوي","#ef4444"],elwatan:["الوطن","#b91c1c"],akhbarelyom:["أخبار اليوم","#9a3412"],ahram:["بوابة الأهرام","#1e3a8a"],dostor:["الدستور","#7c3aed"],ahramsport:["الأهرام الرياضي","#0369a1"],amwal:["أموال الغد","#0d9488"],bbc:["بي بي سي عربي","#b80000"],skynews:["سكاي نيوز عربية","#0b4ea2"],aljazeera:["الجزيرة","#c48a12"],alarabiya:["العربية","#0f766e"],france24:["فرانس 24","#0ea5e9"],cnn:["سي إن إن عربية","#dc2626"],rt:["آر تي عربي","#15803d"],dw:["دويتشه فيله","#0c4a6e"],aawsat:["الشرق الأوسط","#065f46"],okaz:["عكاظ","#1f2937"],almal:["جريدة المال","#b45309"],alborsa:["البورصة","#0e7490"],euronews:["يورونيوز","#1e40af"],independent:["اندبندنت عربية","#be123c"],anadolu:["الأناضول","#1d4ed8"]};
+const CATS={pol:["سياسة","#d61f3a"],eco:["اقتصاد ومال","#0d9488"],fb:["كورة","#15803d"],tr:["نقل","#2563eb"],tech:["تكنولوجيا","#7c3aed"],art:["فن ومنوعات","#db2777"]};
+const CTABS=[["home","الرئيسية","#d61f3a"],["pol","سياسة","#d61f3a"],["eco","اقتصاد ومال","#0d9488"],["fb","كورة","#15803d"],["tr","نقل","#2563eb"],["tech","تكنولوجيا","#7c3aed"],["art","فن ومنوعات","#db2777"],["world","العالم","#1d4ed8"]];
+const PRI={fb:["yallakora","filgoal","ahramsport","masrawy","youm7","shorouk","elwatan","masryalyoum","akhbarelyom"],eco:["almal","alborsa","amwal","youm7","masryalyoum","shorouk","masrawy","elwatan","akhbarelyom","ahram"],tr:["almal","youm7","masryalyoum","shorouk","elwatan","masrawy","akhbarelyom","ahram"],pol:["masryalyoum","youm7","almal","shorouk","elwatan","akhbarelyom","ahram","masrawy","dostor"],tech:["almal","youm7","masrawy","masryalyoum"],art:["youm7","masrawy","elwatan","masryalyoum"],world:["cnn","bbc","skynews","aljazeera","alarabiya","france24","dw","euronews","independent","rt","anadolu","aawsat","okaz"]};
+const COUNTRIES=[["eg","مصر","🇪🇬"],["sa","السعودية","🇸🇦"],["ae","الإمارات","🇦🇪"],["qa","قطر","🇶🇦"],["kw","الكويت","🇰🇼"],["iq","العراق","🇮🇶"],["sy","سوريا","🇸🇾"],["lb","لبنان","🇱🇧"],["jo","الأردن","🇯🇴"],["ps","فلسطين","🇵🇸"],["ly","ليبيا","🇱🇾"],["sd","السودان","🇸🇩"],["ma","المغرب","🇲🇦"],["dz","الجزائر","🇩🇿"],["tn","تونس","🇹🇳"],["ye","اليمن","🇾🇪"],["us","أمريكا","🇺🇸"],["gb","إنجلترا","🇬🇧"],["es","إسبانيا","🇪🇸"],["fr","فرنسا","🇫🇷"],["de","ألمانيا","🇩🇪"],["it","إيطاليا","🇮🇹"],["tr","تركيا","🇹🇷"],["ru","روسيا","🇷🇺"],["ua","أوكرانيا","🇺🇦"],["cn","الصين","🇨🇳"],["ir","إيران","🇮🇷"],["il","إسرائيل","🇮🇱"],["in","الهند","🇮🇳"],["jp","اليابان","🇯🇵"]];
 const PROXIES=[u=>`https://corsproxy.io/?url=${encodeURIComponent(u)}`,u=>`https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,u=>`https://api.codetabs.com/v1/proxy/?quest=${encodeURIComponent(u)}`];
 /* lightweight live layer (only when server data is old/missing) */
 const LIVE=[["youm7","https://www.youm7.com/rss/SectionRss?SectionID=65","eg"],["youm7","https://www.youm7.com/rss/SectionRss?SectionID=298","eg","fb"],["skynews","https://www.skynewsarabia.com/rss.xml","ar"],["bbc","https://feeds.bbci.co.uk/arabic/rss.xml","ar"],["shorouk","https://www.shorouknews.com/egypt/rss","eg"]];
@@ -193,7 +227,7 @@ const LIVE=[["youm7","https://www.youm7.com/rss/SectionRss?SectionID=65","eg"],[
 const S={get(k,d){try{const v=localStorage.getItem("n3."+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem("n3."+k,JSON.stringify(v))}catch(e){}}};
 let DB=S.get("db",{updated:0,items:[],srcs:null}), SR=DB.srcs||SRCS_DEFAULT;
 let MT=S.get("mt",{updated:0,days:{}});
-let route={v:"home"}, F={eg:"all",world:"all",fbSeg:"news",fbLoc:"all",country:"all",day:0,mf:"all"}, openId=null, saved=S.get("saved",[]), fs=S.get("fs",18), pending=null;
+let route={v:"home"}, F={eg:"all",world:"all",fbSeg:"news",fbLoc:"all",country:"all",day:0,mf:"all",src:{}}, openId=null, saved=S.get("saved",[]), fs=S.get("fs",18), pending=null;
 if(S.get("dark",matchMedia("(prefers-color-scheme: dark)").matches)) document.documentElement.classList.add("dark");
 document.documentElement.style.setProperty("--fs",fs+"px");
 const $=s=>document.querySelector(s);
@@ -275,48 +309,66 @@ function observe(){document.querySelectorAll(".sentinel").forEach(s=>io.observe(
 
 function box(title,c,inner,go){return `<section class="box" style="--c:${c}"><div class="bh"><h2>${title}</h2>${go?`<button data-go="${go}">المزيد ‹</button>`:""}</div>${inner}</section>`}
 const chips=(key,opts)=>`<div class="chips">${opts.map(([k,n])=>`<button class="chip ${F[key]===k?"on":""}" data-f="${key}" data-v="${k}">${n}</button>`).join("")}</div>`;
-const CAT_OPTS=[["all","الكل"],["pol","سياسة"],["eco","اقتصاد"],["fb","كورة"],["tr","نقل"]];
+const CAT_OPTS=[["all","الكل"],["pol","سياسة"],["eco","اقتصاد ومال"],["fb","كورة"],["tr","نقل"],["tech","تكنولوجيا"],["art","فن"]];
 const ttl=(t,s)=>`<div class="ttl"><h1>${t}</h1>${s?`<small>${s}</small>`:""}</div>`;
 const skel=()=>`<div class="box" style="padding:14px"><div class="sk" style="aspect-ratio:16/9"></div><div class="sk" style="height:18px;margin-top:12px;width:85%"></div><div class="sk" style="height:18px;margin-top:8px;width:60%"></div></div>`+`<div class="box">${Array.from({length:4},()=>`<div class="row"><div class="sk" style="width:104px;height:78px"></div><div style="flex:1"><div class="sk" style="height:14px"></div><div class="sk" style="height:14px;margin-top:8px;width:70%"></div></div></div>`).join("")}</div>`;
 
 /* ============ VIEWS ============ */
+const card2=a=>`<article class="cc2" data-id="${a.id}">${ph(a)}<h3>${esc(a.t)}</h3>${meta(a)}</article>`;
+function section(title,c,items,go,extra=""){if(!items.length&&!extra)return"";return `<section class="box sec2" style="--c:${c}"><div class="bh"><h2>${title}</h2>${go?`<button data-go="${go}">عرض الكل ‹</button>`:""}</div>${extra}${items.length?`<div class="car">${items.map(card2).join("")}</div>`:""}</section>`}
+function hero(items){
+  if(!items.length) return "";
+  return `<div class="hero" id="hero">${items.map(a=>{const c=(CATS[a.cat]||CATS.pol);return `<article class="slide" data-id="${a.id}">${ph(a)}<div class="ct"><span class="badge" style="--c:${c[1]}">${c[0]}</span><h3>${esc(a.t)}</h3><div style="margin-top:8px">${meta(a)}</div></div></article>`}).join("")}</div><div class="dots" id="dots">${items.map((_,i)=>`<i class="${i?"":"on"}"></i>`).join("")}</div>`;
+}
 function vHome(){
   const A=ok(byTime(all())); if(!A.length) return skel();
   const used=new Set(); const take=(l,n,per=2)=>{const r=diverse(l.filter(a=>!used.has(a.id)),n,per);r.forEach(a=>used.add(a.id));return r};
-  const top=take(A.slice(0,60),5,1);
-  let h=`<section class="box">${lead(top[0])}${top.slice(1,3).length?tiles(top.slice(1,3)):""}${top.slice(3).map(row).join("")}</section>`;
-  const eg=take(A.filter(a=>a.loc&&a.cat!=="fb"),5);
-  if(eg.length) h+=box("مصر الآن","#d61f3a",lead(eg[0])+eg.slice(1).map(row).join(""),"eg");
-  h+=fbPreview(take);
-  const eco=take(A.filter(a=>a.cat==="eco"),4); if(eco.length) h+=box("اقتصاد ومال","#0d9488",eco.map(row).join(""),"eg:eco");
-  const w=take(A.filter(a=>!a.loc&&a.cat!=="fb"),5); if(w.length) h+=box("العالم","#2563eb",lead(w[0])+w.slice(1).map(row).join(""),"world");
-  const tr=take(A.filter(a=>a.cat==="tr"),4); if(tr.length) h+=box("نقل ومواصلات","#7c3aed",tr.map(row).join(""),"eg:tr");
-  h+=box("آخر الأخبار","#0d1526",list(A.filter(a=>!used.has(a.id)),{first:10,leadEvery:0}));
+  let h=hero(take(A.slice(0,80),8,1));
+  h+=section("مصر الآن","#d61f3a",take(A.filter(a=>a.loc&&a.cat==="pol"),10),"eg");
+  const ms=MT.days[todayKey()]; const mini=ms?pickMatches(ms,3):[];
+  const fbExtra=mini.length?mini.map(matchRow).join("")+`<button class="morebtn" data-go="fb:matches" style="--c:#15803d">كل مباريات اليوم ‹</button>`:"";
+  const fb=A.filter(a=>a.cat==="fb"); const fbItems=[...take(fb.filter(a=>a.src==="yallakora"),3,3),...take(fb.filter(a=>a.src==="filgoal"),3,3),...take(fb,6,2)];
+  h+=section("الكورة","#15803d",fbItems,"fb",fbExtra);
+  h+=section("اقتصاد ومال","#0d9488",take(A.filter(a=>a.cat==="eco"),10),"cat:eco");
+  h+=section("نقل ومواصلات","#2563eb",take(A.filter(a=>a.cat==="tr"),10),"cat:tr");
+  h+=section("العالم","#1d4ed8",take(A.filter(a=>!a.loc&&a.cat!=="fb"),10),"world");
+  h+=section("تكنولوجيا","#7c3aed",take(A.filter(a=>a.cat==="tech"),10),"cat:tech");
+  h+=section("فن ومنوعات","#db2777",take(A.filter(a=>a.cat==="art"),10),"cat:art");
+  h+=`<section class="box"><div class="bh" style="--c:#0d1526"><h2>آخر الأخبار</h2></div>${list(A.filter(a=>!used.has(a.id)),{first:10,leadEvery:0})}</section>`;
   return h;
 }
-function fbPreview(take){
-  const A=ok(byTime(all().filter(a=>a.cat==="fb")));
-  const yk=take(A.filter(a=>a.src==="yallakora"),1,1), fg=take(A.filter(a=>a.src==="filgoal"),1,1);
-  const rest=take(A,4-yk.length-fg.length+2,2);
-  const l=[...yk,...fg,...rest].slice(0,4);
-  const ms=todayKey()&&MT.days[todayKey()]; const mini=ms?pickMatches(ms,3):[];
-  return box("الكورة","#15803d",(mini.length?mini.map(matchRow).join("")+`<button class="morebtn" data-go="fb:matches" style="--c:#15803d">كل مباريات اليوم ‹</button>`:"")+(l.length?tiles(l):""),"fb");
+/* source sub-tabs ordered by priority */
+function srcTabs(pool,key,pri,withAll=true,allFirst=true){
+  const cnt={};pool.forEach(a=>cnt[a.src]=(cnt[a.src]||0)+1);
+  const ids=Object.keys(cnt).sort((x,y)=>{const i=pri.indexOf(x),j=pri.indexOf(y);return (i<0?99:i)-(j<0?99:j)||cnt[y]-cnt[x]});
+  if(F.src[key]==null) F.src[key]=allFirst||!ids.length?"all":ids[0];
+  if(F.src[key]!=="all"&&!cnt[F.src[key]]) F.src[key]=allFirst||!ids.length?"all":ids[0];
+  const allB=`<button class="chip ${F.src[key]==="all"?"on":""}" data-stab="${key}" data-v="all">كل المصادر <small style="opacity:.6">${num(pool.length)}</small></button>`;
+  const b=ids.map(id=>`<button class="chip ${F.src[key]===id?"on":""}" data-stab="${key}" data-v="${id}">${esc(src(id)[0])} <small style="opacity:.6">${num(cnt[id])}</small></button>`).join("");
+  const sel=F.src[key]==="all"?pool:pool.filter(a=>a.src===F.src[key]);
+  return {html:`<div class="chips">${withAll&&allFirst?allB:""}${b}${withAll&&!allFirst?allB:""}</div>`,sel};
 }
-function vEg(){const p=byTime(all().filter(a=>a.loc));const l=F.eg==="all"?p.filter(a=>a.cat!=="fb"):p.filter(a=>a.cat===F.eg);return ttl("أخبار مصر")+chips("eg",CAT_OPTS)+`<section class="box">${list(l)}</section>`}
-function vWorld(){const p=byTime(all().filter(a=>!a.loc));const l=F.world==="all"?p.filter(a=>a.cat!=="fb"):p.filter(a=>a.cat===F.world);return ttl("العالم")+chips("world",CAT_OPTS)+`<section class="box">${list(l)}</section>`}
+function vCat(){
+  const c=route.c, [n,col]=CATS[c]; const pool=ok(byTime(all().filter(a=>a.cat===c)));
+  const t=srcTabs(pool,"cat_"+c,PRI[c]||[],true,false);
+  return ttl(n,`${num(pool.length)} خبر`)+t.html+`<section class="box" style="--c:${col}">${list(t.sel)}</section>`;
+}
+function vEg(){
+  const p=ok(byTime(all().filter(a=>a.loc)));const l=F.eg==="all"?p.filter(a=>a.cat!=="fb"):p.filter(a=>a.cat===F.eg);
+  const t=srcTabs(l,"eg_"+F.eg,PRI[F.eg]||PRI.pol);
+  return ttl("أخبار مصر")+chips("eg",CAT_OPTS)+t.html+`<section class="box">${list(t.sel)}</section>`;
+}
+function vWorld(){
+  const p=ok(byTime(all().filter(a=>!a.loc)));const l=F.world==="all"?p.filter(a=>a.cat!=="fb"):p.filter(a=>a.cat===F.world);
+  const t=srcTabs(l,"world_"+F.world,PRI.world);
+  return ttl("العالم")+chips("world",CAT_OPTS)+t.html+`<section class="box">${list(t.sel)}</section>`;
+}
 function vFb(){
   let h=ttl("الكورة")+`<div class="seg"><button data-fbseg="news" class="${F.fbSeg==="news"?"on":""}">الأخبار</button><button data-fbseg="matches" class="${F.fbSeg==="matches"?"on":""}">المباريات</button></div>`;
   if(F.fbSeg==="matches") return h+vMatches();
-  let A=ok(byTime(all().filter(a=>a.cat==="fb")));
-  if(F.fbLoc!=="all") A=A.filter(a=>F.fbLoc==="eg"?a.loc:!a.loc);
-  h+=chips("fbLoc",[["all","الكل"],["eg","🇪🇬 محلية"],["world","🌍 عالمية"]]);
-  const yk=A.filter(a=>a.src==="yallakora"), fg=A.filter(a=>a.src==="filgoal"), rest=A.filter(a=>a.src!=="yallakora"&&a.src!=="filgoal");
-  const sec=(t,c,l,more)=>`<section class="box" style="--c:${c}"><div class="bh"><h2>${t}</h2><small style="color:var(--mute);font-size:12px">${num(l.length)} خبر</small></div>${list(l,{first:6,step:10,leadEvery:0,more,c})}</section>`;
-  if(yk.length) h+=sec("يلا كورة","#16a34a",yk,"المزيد من يلا كورة");
-  if(fg.length) h+=sec("في الجول","#0f766e",fg,"المزيد من في الجول");
-  if(rest.length) h+=`<section class="box" style="--c:#15803d"><div class="bh"><h2>من باقي المواقع</h2></div>${list(rest,{first:10,leadEvery:0})}</section>`;
-  if(!A.length) h+=`<div class="empty"><b>مفيش أخبار كورة دلوقتي</b></div>`;
-  return h;
+  const A=ok(byTime(all().filter(a=>a.cat==="fb")));
+  const t=srcTabs(A,"fb",PRI.fb,true,false);
+  return h+t.html+`<section class="box" style="--c:#15803d">${list(t.sel)}</section>`;
 }
 /* ---- matches ---- */
 function cairoKey(off){const d=new Date(Date.now()+off*864e5);const p=Object.fromEntries(new Intl.DateTimeFormat("en-US",{timeZone:"Africa/Cairo",year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(d).map(x=>[x.type,x.value]));return {key:`${p.year}-${p.month}-${p.day}`,yk:`${+p.month}/${+p.day}/${p.year}`,d}}
@@ -328,12 +380,13 @@ function pickMatches(leagues,n){const o=[];for(const l of [...leagues].sort((a,b
 const logo=(u,n)=>u?`<img class="lo" src="${esc(u)}" loading="lazy" referrerpolicy="no-referrer" alt="" onerror="this.outerHTML='<i class=lo>${esc(ini(n))}</i>'">`:`<i class="lo">${esc(ini(n))}</i>`;
 function matchRow(m){
   const played=/\d/.test(m.sa)&&/\d/.test(m.sb); const live=isLive(m);
-  const mid=played?`<div class="sc"><span>${esc(m.sa)}</span><span style="opacity:.4">-</span><span>${esc(m.sb)}</span></div>`:`<div class="tmn">${esc(m.t||"--:--")}</div>`;
+  const mid0=played?`<div class="sc"><span>${esc(m.sa)}</span><span style="opacity:.4">-</span><span>${esc(m.sb)}</span></div>`:`<div class="tmn">${esc(t12(m.t))}</div>`; const mid=mid0;
   const st=m.st?`<span class="st ${live?"live":""}">${esc(m.st)}</span>`:"";
   const ex=[m.ln,m.ch,m.rd].filter(Boolean).map(esc).join(" · ");
   return `<div class="mt"><div class="mr"><div class="tm">${logo(m.al,m.a)}<span>${esc(m.a)}</span></div><div class="mid">${mid}${st}</div><div class="tm b">${logo(m.bl,m.b)}<span>${esc(m.b)}</span></div></div>${ex?`<div class="mx">${ex}</div>`:""}</div>`;
 }
 const DAYN=["أمس","اليوم","غدًا","بعد غد"];
+function t12(t){const m=String(t||"").match(/^(\d{1,2}):(\d{2})$/);if(!m)return t||"--:--";let h=+m[1];const ap=h>=12?"PM":"AM";h=h%12||12;return `${h}:${m[2]} ${ap}`}
 function vMatches(){
   const days=[-1,0,1,2].map(o=>cairoKey(o));
   let h=`<div class="days">${days.map((d,i)=>`<button data-day="${i-1}" class="${F.day===i-1?"on":""}"><b>${DAYN[i]}</b><small>${d.d.toLocaleDateString("ar-EG",{day:"numeric",month:"short",timeZone:"Africa/Cairo"})}</small></button>`).join("")}</div>`;
@@ -379,7 +432,7 @@ function parseMatches(doc){
 }
 /* ---- countries / sources / search / saved ---- */
 function vCountries(){const A=ok(all());return ttl("حسب الدولة")+`<div class="cg">${COUNTRIES.map(([k,n,f])=>{const c=A.filter(a=>(a.cs||[]).includes(k)).length;return `<button class="cc" data-country="${k}"><span class="f">${f}</span><b>${n}</b><small>${c?num(c)+" خبر":"لا جديد"}</small></button>`}).join("")}</div>`+ttl("المصادر")+`<div class="sg">${Object.keys(SR).map(id=>{const[n,c]=src(id);const k=A.filter(a=>a.src===id).length;return `<button class="sgc ${k?"":"off"}" data-srcv="${id}" style="--c:${c}"><i class="sl">${esc(ini(n))}</i><div><b>${esc(n)}</b><small>${k?num(k)+" خبر":"غير متاح الآن"}</small></div></button>`}).join("")}</div>`}
-function vCountry(){const c=COUNTRIES.find(x=>x[0]===route.c);const p=byTime(all().filter(a=>(a.cs||[]).includes(c[0])));return `<div class="chips"><button class="chip" data-nav="countries">› كل الدول</button></div>`+ttl(`${c[2]} ${c[1]}`)+chips("country",CAT_OPTS)+`<section class="box">${list(F.country==="all"?p:p.filter(a=>a.cat===F.country))}</section>`}
+function vCountry(){const c=COUNTRIES.find(x=>x[0]===route.c);const p=ok(byTime(all().filter(a=>(a.cs||[]).includes(c[0]))));const news=p.filter(a=>a.cat!=="fb"),fb=p.filter(a=>a.cat==="fb");if(F.cseg==="fb"&&!fb.length)F.cseg="news";const l=F.cseg==="fb"?fb:news;const t=srcTabs(l,"c_"+c[0]+F.cseg,PRI.world);return `<div class="chips"><button class="chip" data-nav="countries">› كل الدول</button></div>`+ttl(`${c[2]} ${c[1]}`,`${num(p.length)} خبر`)+`<div class="seg"><button data-cseg="news" class="${F.cseg!=="fb"?"on":""}">الأخبار (${num(news.length)})</button><button data-cseg="fb" class="${F.cseg==="fb"?"on":""}">الكورة (${num(fb.length)})</button></div>`+t.html+`<section class="box">${list(t.sel,{})}</section>`}
 function vSource(){const[n]=src(route.s);return `<div class="chips"><button class="chip" data-nav="countries">› كل المصادر</button></div>`+ttl(esc(n))+`<section class="box">${list(byTime(all().filter(a=>a.src===route.s)))}</section>`}
 const norm=s=>String(s||"").replace(/[أإآ]/g,"ا").replace(/ة/g,"ه").replace(/ى/g,"ي");
 function vSearch(){return `<div class="sbox"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--mute)"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" placeholder="ابحث… الأهلي، الدولار، المترو" value="${esc(route.q||"")}" autocomplete="off"></div><div id="sres"></div>`}
@@ -391,14 +444,22 @@ function renderNav(){const cur={country:"countries",source:"countries"}[route.v]
 function render(){
   pending=null;$("#pill").classList.remove("on");
   for(const k in LISTS) delete LISTS[k];
-  const f={home:vHome,eg:vEg,world:vWorld,fb:vFb,countries:vCountries,country:vCountry,source:vSource,search:vSearch,saved:vSaved}[route.v]||vHome;
-  $("#view").innerHTML=f(); renderNav(); observe();
+  const f={home:vHome,cat:vCat,eg:vEg,world:vWorld,fb:vFb,countries:vCountries,country:vCountry,source:vSource,search:vSearch,saved:vSaved}[route.v]||vHome;
+  $("#view").innerHTML=f(); renderNav(); renderTabs(); observe(); initHero();
   if(route.v==="search"){$("#sres").innerHTML=searchRes();observe();const q=$("#q");q.oninput=()=>{route.q=q.value;$("#sres").innerHTML=searchRes();observe()};if(!route.q)setTimeout(()=>q.focus(),50)}
 }
+function renderTabs(){const cur=route.v==="cat"?route.c:route.v;const el=$("#ctabs");el.innerHTML=CTABS.map(([k,n,c])=>`<button data-ctab="${k}" class="${cur===k?"on":""}" style="--c:${c}">${n}</button>`).join("");const on=el.querySelector(".on");if(on)on.scrollIntoView({inline:"center",block:"nearest"})}
+let heroT=null;
+function initHero(){clearInterval(heroT);const h=$("#hero");if(!h)return;const n=h.children.length;let touching=false;
+  const idx=()=>Math.round(Math.abs(h.scrollLeft)/h.clientWidth);
+  h.addEventListener("scroll",()=>{const i=idx();document.querySelectorAll("#dots i").forEach((d,j)=>d.classList.toggle("on",i===j))},{passive:true});
+  h.addEventListener("touchstart",()=>touching=true,{passive:true});h.addEventListener("touchend",()=>setTimeout(()=>touching=false,4000),{passive:true});
+  heroT=setInterval(()=>{if(touching||openId||document.hidden||!document.body.contains(h))return;const r=h.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight)return;const i=idx();const rtl=getComputedStyle(h).direction==="rtl";const next=i+1>=n?0:i+1;h.scrollTo({left:(rtl?-1:1)*next*h.clientWidth,behavior:"smooth"})},5000)}
 let mTimer=null;
 function go(v,extra={}){route={v,...extra};render();scrollTo(0,0);clearInterval(mTimer);if(v==="fb"&&F.fbSeg==="matches")startMatches()}
 function startMatches(){loadMatches(true);clearInterval(mTimer);mTimer=setInterval(()=>{if(route.v==="fb"&&F.fbSeg==="matches"&&document.visibilityState==="visible")loadMatches(true)},60000)}
-function setSub(){const d=new Date().toLocaleDateString("ar-EG",{weekday:"long",day:"numeric",month:"long"});$("#sub").innerHTML=DB.updated?`${d} · <span class="live-dot"></span>${ago(DB.updated)}`:d}
+function setSub(){$("#sub").innerHTML=DB.updated?`<span class="live-dot"></span>آخر تحديث ${ago(DB.updated)} · ${num(DB.items.length)} خبر`:"جاري التحميل…"}
+function tick(){const d=new Date();const p=Object.fromEntries(new Intl.DateTimeFormat("ar-EG",{weekday:"long",day:"numeric",month:"long",year:"numeric"}).formatToParts(d).map(x=>[x.type,x.value]));$("#date").textContent=`${p.weekday} ${p.day} ${p.month} ${p.year}`;$("#clock").textContent=d.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit",second:"2-digit",hour12:true})}
 function bar(p){$("#bar").style.width=(p*100)+"%"}
 function toast(t){const e=$("#toast");e.textContent=t;e.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove("on"),2000)}
 
@@ -453,10 +514,13 @@ document.addEventListener("click",e=>{
   if(t.id==="rShare"){const a=findA(openId);if(navigator.share)navigator.share({title:a.t,text:a.t+"\n"+a.l}).catch(()=>{});return}
   if(t.dataset.retry) return openReader(t.dataset.retry,true);
   if(t.dataset.more){appendList(t.dataset.more);return}
+  if(t.dataset.ctab){const k=t.dataset.ctab;if(k==="home"||k==="world")return go(k);if(k==="fb"){F.fbSeg="news";return go("fb")}return go("cat",{c:k})}
+  if(t.dataset.stab){F.src[t.dataset.stab]=t.dataset.v;render();return}
+  if(t.dataset.cseg){F.cseg=t.dataset.cseg;render();return}
   if(t.dataset.nav) return go(t.dataset.nav);
-  if(t.dataset.country){F.country="all";return go("country",{c:t.dataset.country})}
+  if(t.dataset.country){F.cseg="news";return go("country",{c:t.dataset.country})}
   if(t.dataset.srcv) return go("source",{s:t.dataset.srcv});
-  if(t.dataset.go){const[v,k]=t.dataset.go.split(":");if(v==="fb"){F.fbSeg=k==="matches"?"matches":"news"}else if(k)F[v]=k;return go(v)}
+  if(t.dataset.go){const[v,k]=t.dataset.go.split(":");if(v==="cat")return go("cat",{c:k});if(v==="fb"){F.fbSeg=k==="matches"?"matches":"news";return go("fb")}if(k)F[v]=k;return go(v)}
   if(t.dataset.f){F[t.dataset.f]=t.dataset.v;const y=scrollY;render();scrollTo(0,Math.min(y,200));return}
   if(t.dataset.fbseg){F.fbSeg=t.dataset.fbseg;render();if(F.fbSeg==="matches")startMatches();else clearInterval(mTimer);return}
   if(t.dataset.day){F.day=+t.dataset.day;render();loadMatches(true);return}
@@ -468,7 +532,7 @@ document.addEventListener("click",e=>{
 document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible"){loadNews(false);loadMatches(false)}});
 
 /* ============ BOOT ============ */
-render(); setSub(); setInterval(setSub,60000);
+tick(); setInterval(tick,1000); render(); setSub(); setInterval(setSub,60000);
 loadNews(false); loadMatches(false);
 if("serviceWorker" in navigator) addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 </script>
