@@ -382,7 +382,7 @@ async function main(){
   console.log("final",out.length,"with image",shown.length);
   fs.writeFileSync("data/state.json",JSON.stringify({updated:now,items:out.map(({feed,...a})=>a),fails}));
   const dec=u=>{try{return decodeURI(u)}catch(e){return u}};
-  const lean=shown.slice(0,900).map(a=>({id:a.id,t:a.t,l:dec(a.l),ts:a.ts,d:(a.d||"").slice(0,150),img:a.img,src:a.src,cat:a.cat,loc:a.loc?1:0,cs:a.cs,b:a.b?1:0}));
+  const lean=shown.slice(0,750).map(a=>({id:a.id,t:a.t,l:dec(a.l),ts:a.ts,d:(a.d||"").slice(0,110),img:a.img,src:a.src,cat:a.cat,loc:a.loc?1:0,cs:a.cs,b:a.b?1:0}));
   fs.writeFileSync("data/news.json",JSON.stringify({updated:now,srcs,items:lean}));
   fs.writeFileSync("data/status.json",JSON.stringify({updated:now,stat,errs,pages:need.length,ok,proxied:[...blocked.keys()]},null,1));
 }
