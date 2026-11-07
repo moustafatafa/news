@@ -241,6 +241,15 @@ const byTime=l=>[...l].sort((a,b)=>b.ts-a.ts);
 function diverse(list,n,per=1){const o=[],c={};for(const a of list){if((c[a.src]||0)>=per)continue;c[a.src]=(c[a.src]||0)+1;o.push(a);if(o.length>=n)break}return o}
 
 /* ============ NETWORK ============ */
+/* live data lives on the "data" branch: read it straight from GitHub (no waiting for the site to rebuild) */
+const GH=(()=>{const o=(location.hostname.match(/^([^.]+)\.github\.io$/)||[])[1]||"moustafatafa";const r=(location.pathname.split("/").filter(Boolean)[0])||"news";return {o,r}})();
+const API=`https://api.github.com/repos/${GH.o}/${GH.r}/contents/data/`, RAW=`https://raw.githubusercontent.com/${GH.o}/${GH.r}/data/data/`;
+async function getData(name,ms=15000){
+  const tries=[()=>tfetch(API+name+"?ref=data&t="+Date.now(),ms,{cache:"no-store",headers:{Accept:"application/vnd.github.raw"}}),()=>tfetch(RAW+name+"?t="+Date.now(),ms,{cache:"no-store"}),()=>tfetch("data/"+name+"?t="+Date.now(),ms,{cache:"no-store"})];
+  let best=null;
+  for(const f of tries){try{const r=await f();if(!r.ok)continue;const j=await r.json();if(!best||(j.updated||0)>(best.updated||0))best=j;if(Date.now()-(j.updated||0)<15*60e3)return j}catch(e){}}
+  return best;
+}
 function tfetch(u,ms,opt={}){const c=new AbortController();const t=setTimeout(()=>c.abort(),ms);return fetch(u,{...opt,signal:c.signal}).finally(()=>clearTimeout(t))}
 let pxOrder=S.get("px",[0,1,2]);
 async function viaProxy(url,ms=9000){let err;for(const i of pxOrder){try{const r=await tfetch(PROXIES[i](url),ms);if(!r.ok)throw 0;const t=await r.text();if(t.length<200)throw 0;if(pxOrder[0]!==i){pxOrder=[i,...pxOrder.filter(x=>x!==i)];S.set("px",pxOrder)}return t}catch(e){err=e}}throw err||0}
@@ -249,8 +258,8 @@ async function loadNews(manual){
   if(loading) return; loading=true; $("#bRefresh").classList.add("spin"); bar(.3);
   let fresh=false;
   try{
-    const r=await tfetch("data/news.json?t="+Date.now(),15000,{cache:"no-store"});
-    if(r.ok){const j=await r.json(); if(j.items&&j.updated>=DB.updated){ const live=DB.items.filter(a=>a.live&&a.ts>j.updated); fresh=j.updated>DB.updated||manual; DB={updated:j.updated,srcs:j.srcs,items:merge(j.items,live)}; SR=j.srcs||SRCS_DEFAULT; S.set("db",DB); }}
+    const j=await getData("news.json");
+    if(j){ if(j.items&&j.updated>=DB.updated){ const live=DB.items.filter(a=>a.live&&a.ts>j.updated); fresh=j.updated>DB.updated||manual; DB={updated:j.updated,srcs:j.srcs,items:merge(j.items,live)}; SR=j.srcs||SRCS_DEFAULT; S.set("db",DB); }}
   }catch(e){}
   bar(.7);
   if(Date.now()-DB.updated>20*60e3){ if(await liveLayer()) fresh=true; }
@@ -405,7 +414,7 @@ function vMatches(){
 let mLoading=false;
 async function loadMatches(live){
   if(mLoading) return; mLoading=true;
-  try{const r=await tfetch("data/matches.json?t="+Date.now(),12000,{cache:"no-store"});if(r.ok){const j=await r.json();if(j.updated>MT.updated){MT=j;S.set("mt",MT)}}}catch(e){}
+  try{const j=await getData("matches.json",12000);if(j&&j.updated>MT.updated){MT=j;S.set("mt",MT)}}catch(e){}
   if(live){ // live scores straight from Yallakora for the selected day
     try{const d=cairoKey(F.day);const html=await viaProxy(`https://www.yallakora.com/match-center/?date=${d.yk}`,10000);const L=parseMatches(new DOMParser().parseFromString(html.replace(/<script[\s\S]*?<\/script>/gi,""),"text/html"));if(L.length){MT={...MT,updated:Date.now(),days:{...MT.days,[d.key]:L}};S.set("mt",MT)}}catch(e){}
   }
@@ -473,7 +482,7 @@ function clientClean(html,base){
   return out.join("");
 }
 async function getBody(a){
-  if(a.b){try{const r=await tfetch(`data/a/${a.id}.json`,12000);if(r.ok){const j=await r.json();if(j.h)return j.h}}catch(e){}}
+  if(a.b){for(const u of [RAW+`a/${a.id}.json`,`data/a/${a.id}.json`]){try{const r=await tfetch(u,12000);if(r.ok){const j=await r.json();if(j.h)return j.h}}catch(e){}}}
   try{const html=await viaProxy(a.l,14000);const doc=new DOMParser().parseFromString(html.replace(/<script[\s\S]*?<\/script>/gi,""),"text/html");const b=doc.createElement("base");b.href=a.l;doc.head&&doc.head.appendChild(b);
     if(await loadReadability()&&window.Readability){const r=new Readability(doc,{charThreshold:250}).parse();if(r&&r.content){const h=clientClean(r.content,a.l);if(h.length>300)return h}}
     const root=doc.querySelector("[itemprop=articleBody],.article-body,.articleBody,#articleBody,.entry-content,article")||doc.body;const h=clientClean(root.innerHTML,a.l);if(h.length>300)return h;
@@ -534,6 +543,7 @@ document.addEventListener("visibilitychange",()=>{if(document.visibilityState===
 /* ============ BOOT ============ */
 tick(); setInterval(tick,1000); render(); setSub(); setInterval(setSub,60000);
 loadNews(false); loadMatches(false);
+setInterval(()=>{if(document.visibilityState==="visible"){loadNews(false)}},150000);
 if("serviceWorker" in navigator) addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 </script>
 </body>
