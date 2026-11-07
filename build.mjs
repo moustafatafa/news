@@ -325,7 +325,7 @@ async function main(){
   const raw=[];
   const jobs=[]; for(const s of SOURCES){ for(const f of s.feeds) jobs.push({s,f}); for(const p of (s.pages||[])) jobs.push({s,f:p,page:1}); }
   await pool(jobs,10,async({s,f,page})=>{
-    try{ const {text}=await get(f.u); const items=page?scrapePage(text,f,s):parseFeed(text,f,s); raw.push(...items); stat[s.id]=(stat[s.id]||0)+items.length; }
+    try{ const {text}=await get(f.u); const items=page?scrapePage(text,f,s):parseFeed(text,f,s); raw.push(...items); stat[s.id]=(stat[s.id]||0)+items.length; if(!items.length) errs[s.id]=(errs[s.id]?errs[s.id]+" | ":"")+"0 items: "+text.length+" "+text.slice(0,160).replace(/\s+/g," "); }
     catch(e){ console.log("source fail",s.id,f.u,e.message); errs[s.id]=(errs[s.id]?errs[s.id]+" | ":"")+e.message; stat[s.id]=stat[s.id]||0 }
   });
   console.log("raw items",raw.length, JSON.stringify(stat));
