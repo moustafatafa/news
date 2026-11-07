@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>News</title>
+<meta name="description" content="أخبار مصر والعالم والكورة بالصور من كل المصادر">
+<meta name="theme-color" content="#f4f1ea" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0a0e1c" media="(prefers-color-scheme: dark)">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="News">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Readex+Pro:wght@500;600;700&family=Inter:wght@800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f1ea;--bg2:#ebe6db;--card:#fff;--ink:#0f1528;--ink2:#4a5168;--mute:#8a8fa3;--line:rgba(15,21,40,.08);--glass:rgba(244,241,234,.86);
+  --accent:#e2384d;--accent2:#ff8a3d;--shadow:0 1px 2px rgba(15,21,40,.05),0 8px 24px -10px rgba(15,21,40,.18);--r:18px;--fs:18px;
+  --safe-t:env(safe-area-inset-top,0px);--safe-b:env(safe-area-inset-bottom,0px);
+}
+html.dark{--bg:#0a0e1c;--bg2:#121830;--card:#141a31;--ink:#eef0f7;--ink2:#b4b9cc;--mute:#7a8099;--line:rgba(255,255,255,.08);--glass:rgba(10,14,28,.84);--shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -12px rgba(0,0,0,.6)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans Arabic",system-ui,sans-serif;min-height:100vh}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}
+h1,h2,h3{font-family:"Readex Pro","IBM Plex Sans Arabic",sans-serif;margin:0}
+img{display:block}
+.wrap{max-width:760px;margin:0 auto;padding:0 14px}
+main{overflow-x:clip;padding-bottom:calc(100px + var(--safe-b))}
+
+header{position:sticky;top:0;z-index:30;background:var(--glass);backdrop-filter:saturate(1.6) blur(18px);-webkit-backdrop-filter:saturate(1.6) blur(18px);border-bottom:1px solid var(--line);padding-top:var(--safe-t)}
+.hd{display:flex;align-items:center;gap:8px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+.logo{width:38px;height:38px;border-radius:11px;flex:none;box-shadow:0 6px 16px -6px rgba(226,56,77,.7)}
+.bt{display:flex;flex-direction:column;min-width:0}
+.bt b{font:900 22px/1 Inter,sans-serif;letter-spacing:-.5px;direction:ltr;text-align:right}
+.bt small{font-size:11.5px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:4px}
+.ib{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:var(--card);border:1px solid var(--line);flex:none}
+.ib:active{transform:scale(.92)}
+.ib svg{width:19px;height:19px}
+.ib.spin svg{animation:rot 1s linear infinite}
+@keyframes rot{to{transform:rotate(-360deg)}}
+.prog{height:3px;background:transparent;position:relative;overflow:hidden}
+.prog i{position:absolute;inset:0 auto 0 0;width:0;background:linear-gradient(90deg,var(--accent2),var(--accent));transition:width .3s}
+.dot{width:7px;height:7px;border-radius:50%;background:#22c55e;display:inline-block;margin-left:4px;vertical-align:1px}
+
+.chips{display:flex;gap:8px;overflow-x:auto;margin:12px -14px 4px;padding:2px 14px 6px;scrollbar-width:none}
+.chips::-webkit-scrollbar,.hero::-webkit-scrollbar,.hs::-webkit-scrollbar{display:none}
+.chip{flex:none;padding:8px 14px;border-radius:999px;background:var(--card);border:1px solid var(--line);font-size:13.5px;font-weight:600;color:var(--ink2);display:flex;align-items:center;gap:6px}
+.chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip .sl{width:20px;height:20px;border-radius:6px;font-size:11px}
+
+.sec{display:flex;align-items:center;justify-content:space-between;margin:24px 0 12px}
+.sec h2{font-size:19px;display:flex;align-items:center;gap:9px}
+.sec h2 i{width:6px;height:20px;border-radius:4px;background:var(--c,var(--accent))}
+.sec button{font-size:13px;color:var(--mute);font-weight:600}
+
+/* images */
+.ph{position:relative;background:linear-gradient(135deg,var(--bg2),var(--card));overflow:hidden}
+.ph img{width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .4s}
+.ph img.ok{opacity:1}
+
+/* hero */
+.hero{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;margin:12px -14px 0;padding:2px 14px 6px;scrollbar-width:none}
+.hc{flex:0 0 90%;max-width:600px;scroll-snap-align:center;border-radius:24px;overflow:hidden;position:relative;aspect-ratio:4/4.4;color:#fff;box-shadow:var(--shadow);text-align:right;background:#111}
+.hc .ph{position:absolute;inset:0}
+.hc .ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 30%,rgba(0,0,0,.88) 100%)}
+.hc .ct{position:absolute;inset:auto 0 0 0;padding:18px}
+.hc h3{font-size:21px;line-height:1.5;margin:10px 0 6px;text-wrap:balance}
+.hc p{margin:0;font-size:13.5px;line-height:1.7;opacity:.85;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.dots{display:flex;justify-content:center;gap:6px;margin-top:8px}
+.dots i{width:6px;height:6px;border-radius:6px;background:var(--line);transition:all .3s}
+.dots i.on{width:20px;background:var(--accent)}
+
+/* source line */
+.sl{width:22px;height:22px;border-radius:7px;display:grid;place-items:center;font-size:11.5px;color:#fff;font-weight:700;flex:none;background:var(--c)}
+.src{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:var(--ink2);min-width:0}
+.src span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.src em{font-style:normal;color:var(--mute);font-weight:500;margin-inline-start:auto;white-space:nowrap}
+.hc .src{color:#fff}.hc .src em{color:rgba(255,255,255,.75)}
+.tag{font-size:11px;font-weight:700;padding:3px 8px;border-radius:7px;color:#fff;background:var(--c);display:inline-block}
+
+/* horizontal cards */
+.hs{display:flex;gap:12px;overflow-x:auto;margin:0 -14px;padding:2px 14px 10px;scroll-snap-type:x proximity;scrollbar-width:none}
+.sc{flex:0 0 230px;background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);text-align:right;scroll-snap-align:start;display:flex;flex-direction:column;border:1px solid var(--line)}
+.sc .ph{height:140px}
+.sc .b{padding:11px 12px 13px;display:flex;flex-direction:column;gap:8px;flex:1}
+.sc h3{font-size:15px;line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+
+/* grid feed */
+.grid{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:620px){.grid{grid-template-columns:1fr 1fr}}
+.gc{background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);border:1px solid var(--line);text-align:right;display:flex;flex-direction:column;animation:up .4s both}
+.gc .ph{aspect-ratio:16/9}
+.gc .b{padding:12px 13px 14px;display:flex;flex-direction:column;gap:8px}
+.gc h3{font-size:16.5px;line-height:1.6}
+.gc p{margin:0;color:var(--ink2);font-size:13.5px;line-height:1.7;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.row{display:flex;gap:12px;background:var(--card);border-radius:var(--r);padding:10px;box-shadow:var(--shadow);border:1px solid var(--line);text-align:right;animation:up .4s both}
+.row .ph{width:112px;height:92px;border-radius:12px;flex:none}
+.row .b{flex:1;min-width:0;display:flex;flex-direction:column;gap:7px}
+.row h3{font-size:15px;line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.more{display:block;margin:16px auto;padding:12px 22px;border-radius:14px;background:var(--card);border:1px solid var(--line);font-weight:700;font-size:14px}
+
+.seg{display:flex;background:var(--bg2);border-radius:15px;padding:4px;margin:14px 0 4px}
+.seg button{flex:1;padding:10px;border-radius:11px;font-weight:700;font-size:14.5px;color:var(--mute);font-family:"Readex Pro"}
+.seg button.on{background:var(--card);color:var(--ink);box-shadow:var(--shadow)}
+.ttl{margin:16px 0 4px;display:flex;align-items:baseline;gap:10px}
+.ttl h1{font-size:25px}
+.ttl small{color:var(--mute);font-size:13px}
+
+.cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:14px}
+.cc{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px;text-align:right;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:5px}
+.cc .f{font-size:32px;line-height:1}
+.cc b{font-family:"Readex Pro";font-size:16px}
+.cc small{color:var(--mute);font-size:12px}
+
+nav{position:fixed;bottom:0;left:0;right:0;z-index:30;padding:6px 10px calc(8px + var(--safe-b));background:var(--glass);backdrop-filter:saturate(1.6) blur(18px);-webkit-backdrop-filter:saturate(1.6) blur(18px);border-top:1px solid var(--line)}
+nav .in{max-width:560px;margin:0 auto;display:flex}
+nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11.5px;font-weight:600;color:var(--mute);padding:6px 0;position:relative}
+nav button svg{width:23px;height:23px}
+nav button.on{color:var(--ink)}
+nav button.on:after{content:"";position:absolute;top:-6px;width:26px;height:3px;border-radius:3px;background:var(--accent)}
+
+/* reader */
+.sheet{position:fixed;inset:0;z-index:50;background:var(--bg);overflow-y:auto;-webkit-overflow-scrolling:touch;transform:translateX(-100%);transition:transform .35s cubic-bezier(.2,.8,.2,1);visibility:hidden}
+.sheet.open{transform:none;visibility:visible}
+.rbar{position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:8px;padding:calc(8px + var(--safe-t)) 14px 8px;background:var(--glass);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.rbar .sp{flex:1}
+.rprog{position:absolute;bottom:-1px;right:0;height:2px;background:var(--accent);width:0}
+.fsz{display:flex;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:3px}
+.fsz button{width:34px;height:30px;border-radius:9px;font-weight:700;font-family:Inter}
+.rimg{margin:0 -14px;aspect-ratio:16/10;max-height:60vh}
+.rmeta{display:flex;align-items:center;gap:10px;margin:16px 0 0}
+.rmeta .sl{width:34px;height:34px;border-radius:11px;font-size:15px}
+.rmeta small{display:block;color:var(--mute);font-size:12px}
+.rmeta b{font-size:15px}
+.rh{font-size:calc(var(--fs) + 8px);line-height:1.5;margin:14px 0 10px;text-wrap:balance}
+.body{font-size:var(--fs);line-height:2;color:var(--ink2)}
+.body p{margin:0 0 16px}
+.body img{width:calc(100% + 28px);max-width:none;margin:8px -14px 16px;height:auto;border-radius:0}
+.body h2,.body h3{font-size:calc(var(--fs) + 2px);color:var(--ink);margin:20px 0 10px;line-height:1.6}
+.body blockquote{margin:16px 0;padding:6px 14px;border-right:4px solid var(--accent);color:var(--ink)}
+.body ul{padding-right:20px}
+.body figure{margin:0}
+.body figcaption{font-size:12.5px;color:var(--mute);margin:-8px 0 14px}
+.loading{display:flex;align-items:center;gap:10px;color:var(--mute);font-size:14px;padding:14px 0}
+.spn{width:16px;height:16px;border:2px solid var(--line);border-top-color:var(--accent);border-radius:50%;animation:rot .8s linear infinite}
+.endnote{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--mute);border-top:1px dashed var(--line);padding-top:14px;margin-top:8px}
+
+.empty{text-align:center;padding:50px 20px;color:var(--mute)}
+.empty .e{font-size:44px;margin-bottom:8px}
+.empty b{display:block;color:var(--ink);font-family:"Readex Pro";font-size:17px;margin-bottom:6px}
+.sk{background:linear-gradient(90deg,var(--bg2),var(--card),var(--bg2));background-size:200% 100%;animation:sh 1.3s infinite;border-radius:var(--r)}
+@keyframes sh{to{background-position:-200% 0}}
+.sbox{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:15px;padding:0 14px;margin:14px 0;box-shadow:var(--shadow)}
+.sbox input{flex:1;border:0;background:none;font:inherit;font-size:16px;color:var(--ink);padding:13px 0;outline:none}
+.toast{position:fixed;bottom:calc(90px + var(--safe-b));left:50%;transform:translate(-50%,20px);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:13px;font-size:14px;font-weight:600;opacity:0;transition:all .3s;z-index:60;pointer-events:none;white-space:nowrap}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.srcgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-top:12px}
+.srcc{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:11px;text-align:right}
+.srcc .sl{width:34px;height:34px;border-radius:10px;font-size:15px}
+.srcc b{font-size:14px;display:block}.srcc small{font-size:11.5px;color:var(--mute)}
+.srcc.off{opacity:.45}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap hd">
+    <div class="brand">
+      <img class="logo" src="icon-192.png" alt="">
+      <div class="bt"><b>News</b><small id="sub">أخبارك بالصور من كل المصادر</small></div>
+    </div>
+    <button class="ib" id="bSearch" aria-label="بحث"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+    <button class="ib" id="bSaved" aria-label="المحفوظات"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6 3h12v18l-6-4-6 4z"/></svg></button>
+    <button class="ib" id="bRefresh" aria-label="تحديث"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 0 0-14.9-3.9L4 9"/><path d="M4 4v5h5"/><path d="M4 13a8 8 0 0 0 14.9 3.9L20 15"/><path d="M20 20v-5h-5"/></svg></button>
+    <button class="ib" id="bTheme" aria-label="الوضع الليلي"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+  </div>
+  <div class="prog"><i id="prog"></i></div>
+</header>
+<main class="wrap" id="view"></main>
+<nav><div class="in" id="nav"></div></nav>
+<section class="sheet" id="reader"></section>
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@mozilla/readability@0.5.0/Readability.js" defer></script>
+<script>
+/* =================== SOURCES =================== */
+/* scope: eg = Egyptian outlet/section, ar = Arab/world outlet. cat: default category (null = auto) */
+const SOURCES = [
+ // ---- مصر ----
+ {id:"youm7",   name:"اليوم السابع", color:"#c8102e", feeds:[
+   {u:"https://www.youm7.com/rss/SectionRss?SectionID=65", s:"eg"},
+   {u:"https://www.youm7.com/rss/SectionRss?SectionID=319", s:"eg", cat:"pol"},
+   {u:"https://www.youm7.com/rss/SectionRss?SectionID=97", s:"eg"},
+   {u:"https://www.youm7.com/rss/SectionRss?SectionID=298", s:"eg", cat:"fb"},
+   {u:"https://www.youm7.com/rss/SectionRss?SectionID=296", s:"eg"},
+   {u:"https://www.youm7.com/rss/SectionRss?SectionID=88", s:"ar"}]},
+ {id:"shorouk", name:"الشروق", color:"#0b6e4f", feeds:[
+   {u:"https://www.shorouknews.com/egypt/rss", s:"eg"},
+   {u:"https://www.shorouknews.com/Economy/rss", s:"eg", cat:"eco"},
+   {u:"https://www.shorouknews.com/sports/local-sports/rss", s:"eg", cat:"fb"},
+   {u:"https://www.shorouknews.com/sports/international/rss", s:"ar", cat:"fb"},
+   {u:"https://www.shorouknews.com/Politics/world/rss", s:"ar"},
+   {u:"https://www.shorouknews.com/Politics/arab/rss", s:"ar"},
+   {u:"https://www.shorouknews.com/auto/rss", s:"eg", cat:"tr"}]},
+ {id:"masryalyoum", name:"المصري اليوم", color:"#1d4ed8", feeds:[{u:"https://www.almasryalyoum.com/rss/rssfeeds", s:"eg"}]},
+ {id:"masrawy", name:"مصراوي", color:"#ef4444", feeds:[{u:"https://www.masrawy.com/rss/feed/35/%D8%A3%D8%AE%D8%A8%D8%A7%D8%B1%20%D9%85%D8%B5%D8%B1-%D8%B3%D9%8A%D8%A7%D8%B3%D8%A9", s:"eg"}], pages:[{u:"https://www.masrawy.com/", rx:/\/details\/\d{4}\/\d+\/\d+\/\d+/i, s:"eg"}]},
+ {id:"dostor",  name:"الدستور", color:"#7c3aed", feeds:[{u:"https://www.dostor.org/rss.aspx", s:"eg"}]},
+ {id:"ahramsport", name:"الأهرام الرياضي", color:"#0369a1", feeds:[{u:"https://alahramalriyadi.com/feed/", s:"eg", cat:"fb"}]},
+ {id:"yallakora", name:"يلا كورة", color:"#16a34a", feeds:[], pages:[{u:"https://www.yallakora.com/", rx:/\/news\/\d+/i, s:"eg", cat:"fb"}]},
+ {id:"filgoal", name:"في الجول", color:"#15803d", feeds:[], pages:[{u:"https://www.filgoal.com/", rx:/\/articles\/\d+/i, s:"eg", cat:"fb"}]},
+ {id:"elwatan", name:"الوطن", color:"#b91c1c", feeds:[], pages:[{u:"https://www.elwatannews.com/", rx:/\/news\/details\/\d+/i, s:"eg"}]},
+ {id:"akhbarelyom", name:"أخبار اليوم", color:"#9a3412", feeds:[], pages:[{u:"https://akhbarelyom.com/", rx:/\/news\/newdetails\/\d+/i, s:"eg"}]},
+ {id:"ahram", name:"بوابة الأهرام", color:"#1e3a8a", feeds:[], pages:[{u:"https://gate.ahram.org.eg/", rx:/\/News\/\d+\.aspx/i, s:"eg"}]},
+ {id:"amwal", name:"أموال الغد", color:"#0d9488", feeds:[{u:"https://amwalalghad.com/feed/", s:"eg", cat:"eco"}]},
+ // ---- عربي وعالمي ----
+ {id:"bbc",     name:"بي بي سي عربي", color:"#b80000", feeds:[{u:"https://feeds.bbci.co.uk/arabic/rss.xml", s:"ar"}]},
+ {id:"skynews", name:"سكاي نيوز عربية", color:"#0b4ea2", feeds:[{u:"https://www.skynewsarabia.com/rss.xml", s:"ar"}]},
+ {id:"aljazeera", name:"الجزيرة", color:"#c48a12", feeds:[{u:"https://www.aljazeera.net/aljazeerarss/a7c186be-1baa-4bd4-9d80-a84db769f779/73d0e1b4-532f-45ef-b135-bfdff8b8cab9", s:"ar"}]},
+ {id:"alarabiya", name:"العربية", color:"#0f766e", feeds:[{u:"https://www.alarabiya.net/feed/rss2/ar.xml", s:"ar"}], pages:[{u:"https://www.alarabiya.net/", rx:/\/20\d\d\/\d\d\/\d\d\//, s:"ar"}]},
+ {id:"france24", name:"فرانس 24", color:"#0ea5e9", feeds:[{u:"https://www.france24.com/ar/rss", s:"ar"}]},
+ {id:"cnn",     name:"سي إن إن عربية", color:"#dc2626", feeds:[{u:"https://arabic.cnn.com/api/v1/rss/rss.xml", s:"ar"}]},
+ {id:"rt",      name:"آر تي عربي", color:"#16a34a", feeds:[{u:"https://arabic.rt.com/rss/", s:"ar"}]},
+ {id:"dw",      name:"دويتشه فيله", color:"#0c4a6e", feeds:[{u:"https://rss.dw.com/xml/rss-ar-all", s:"ar"}]},
+ {id:"aawsat",  name:"الشرق الأوسط", color:"#065f46", feeds:[{u:"https://aawsat.com/feed", s:"ar"}]},
+ {id:"okaz",    name:"عكاظ", color:"#1f2937", feeds:[{u:"https://www.okaz.com.sa/rssFeed/0", s:"ar"}]},
+ {id:"albawaba", name:"البوابة", color:"#9333ea", feeds:[{u:"https://www.albawaba.com/rss/ar-all", s:"ar"}]},
+];
+const SRC = Object.fromEntries(SOURCES.map(s=>[s.id,s]));
+const ini=n=>(String(n||"").replace(/^ال/,"").trim()[0]||"•");
+
+const CATS = {pol:{n:"أخبار وسياسة",c:"#e11d48"},eco:{n:"اقتصاد ومال",c:"#0d9488"},fb:{n:"كورة",c:"#16a34a"},tr:{n:"نقل ومواصلات",c:"#2563eb"}};
+const COUNTRIES = [
+ ["eg","مصر","🇪🇬",["مصر","المصري","المصرية","القاهرة","السيسي","مدبولي","الجيزة","الإسكندرية","الأهلي","الزمالك","بيراميدز"]],
+ ["sa","السعودية","🇸🇦",["السعودية","السعودي","الرياض","جدة","بن سلمان","الهلال","النصر","الاتحاد السعودي"]],
+ ["ae","الإمارات","🇦🇪",["الإمارات","الإماراتي","أبوظبي","أبو ظبي","دبي"]],
+ ["us","أمريكا","🇺🇸",["أمريكا","الأمريكي","الأمريكية","واشنطن","ترامب","الولايات المتحدة","البيت الأبيض","الكونغرس"]],
+ ["gb","إنجلترا","🇬🇧",["بريطانيا","البريطاني","البريطانية","إنجلترا","الإنجليزي","لندن","ليفربول","أرسنال","آرسنال","مانشستر","تشيلسي","توتنهام","البريميرليغ"]],
+ ["es","إسبانيا","🇪🇸",["إسبانيا","الإسباني","الإسبانية","مدريد","برشلونة","الليغا","الليجا"]],
+ ["fr","فرنسا","🇫🇷",["فرنسا","الفرنسي","الفرنسية","باريس","ماكرون","سان جيرمان"]],
+ ["de","ألمانيا","🇩🇪",["ألمانيا","الألماني","الألمانية","برلين","ميرتس","بايرن","دورتموند","البوندسليغا"]],
+ ["it","إيطاليا","🇮🇹",["إيطاليا","الإيطالي","الإيطالية","روما","ميلان","يوفنتوس","إنتر","نابولي","لاتسيو"]],
+ ["cn","الصين","🇨🇳",["الصين","الصيني","الصينية","بكين","شي جين"]],
+ ["ru","روسيا","🇷🇺",["روسيا","الروسي","الروسية","موسكو","بوتين","الكرملين"]],
+ ["tr","تركيا","🇹🇷",["تركيا","التركي","التركية","أنقرة","إسطنبول","أردوغان","طرابزون"]],
+ ["ps","فلسطين","🇵🇸",["فلسطين","الفلسطيني","الفلسطينية","غزة","الضفة","القدس","حماس","رفح"]],
+ ["ir","إيران","🇮🇷",["إيران","الإيراني","الإيرانية","طهران","هرمز","عراقجي"]],
+ ["ua","أوكرانيا","🇺🇦",["أوكرانيا","الأوكراني","الأوكرانية","كييف","زيلينسكي"]],
+];
+const KW = {
+ fb:/الأهلي|الزمالك|بيراميدز|الدوري|مباراة|مباريات|المنتخب|منتخب|ريال مدريد|برشلونة|ليفربول|محمد صلاح|كأس|هدف|أهداف|مدرب|لاعب|كرة القدم|دوري أبطال|الفيفا|فيفا|كاف|الإسماعيلي|المصري البورسعيدي|سيراميكا|تشكيل|ركلة|الملعب|نادي/,
+ eco:/الدولار|الذهب|البورصة|البنك|بنك|الاقتصاد|اقتصاد|التضخم|أسعار|سعر|النفط|الفائدة|الجنيه|استثمار|الاستثمار|صندوق النقد|الصادرات|الواردات|الموازنة|الضرائب|شركة|الأسهم|العملات|اليورو|الريال/,
+ tr:/مترو|المترو|قطار|القطارات|السكة الحديد|السكك الحديدية|وزارة النقل|وزير النقل|كامل الوزير|الطيران|مطار|ميناء|موانئ|مونوريل|المونوريل|طريق|الطرق|محور|كوبري|أتوبيس|الملاحة|قناة السويس|شحن|سفن|حادث تصادم/
+};
+const FB_LOCAL=/الأهلي|الزمالك|بيراميدز|الدوري المصري|المنتخب المصري|منتخب مصر|الإسماعيلي|المصري البورسعيدي|سيراميكا|إنبي|زد|مودرن سبورت|كأس مصر|البنك الأهلي|سموحة|الاتحاد السكندري|غزل المحلة|طلائع الجيش|المقاولون|حسام حسن/;
+const EG_RX=/مصر|المصري|المصرية|القاهرة|السيسي|مدبولي|الجيزة|الإسكندرية|محافظ/;
+
+/* =================== NETWORK =================== */
+const PROXIES=[
+ u=>`https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
+ u=>`https://corsproxy.io/?url=${encodeURIComponent(u)}`,
+ u=>`https://api.codetabs.com/v1/proxy/?quest=${encodeURIComponent(u)}`,
+];
+let proxyOrder=LS().get("px",[0,1,2]);
+function LS(){return{get(k,d){try{const v=localStorage.getItem("n2."+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem("n2."+k,JSON.stringify(v))}catch(e){}}}}
+const store=LS();
+function tfetch(url,ms){const c=new AbortController();const t=setTimeout(()=>c.abort(),ms);return fetch(url,{signal:c.signal,cache:"no-store"}).finally(()=>clearTimeout(t))}
+async function getText(url,ms=12000){
+  let lastErr;
+  for(const i of proxyOrder){
+    try{const r=await tfetch(PROXIES[i](url),ms); if(!r.ok) throw new Error(r.status); const t=await r.text(); if(!t||t.length<150) throw new Error("empty");
+      if(proxyOrder[0]!==i){proxyOrder=[i,...proxyOrder.filter(x=>x!==i)];store.set("px",proxyOrder)} return t;
+    }catch(e){lastErr=e}
+  }
+  throw lastErr||new Error("fail");
+}
+async function getFeedJSON(url){ // rss2json fallback
+  const r=await tfetch("https://api.rss2json.com/v1/api.json?rss_url="+encodeURIComponent(url),12000); const j=await r.json();
+  if(j.status!=="ok") throw new Error("rss2json"); return j.items||[];
+}
+
+/* =================== PARSING =================== */
+const strip=h=>{const d=document.createElement("div");d.innerHTML=String(h||"").replace(/<script[\s\S]*?<\/script>/gi,"");return (d.textContent||"").replace(/\s+/g," ").trim()};
+function firstImg(html){const m=String(html||"").match(/<img[^>]+src=["']([^"']+)["']/i);return m?m[1]:null}
+function absUrl(u,base){try{return new URL(u.replace(/&amp;/g,"&"),base).href}catch(e){return null}}
+function txt(el,sel){const n=el.getElementsByTagName(sel)[0];return n?n.textContent.trim():""}
+function parseXML(xml,feed,source){
+  const doc=new DOMParser().parseFromString(xml.replace(/^﻿/,""),"text/xml");
+  if(doc.getElementsByTagName("parsererror").length) throw new Error("xml");
+  let nodes=[...doc.getElementsByTagName("item")]; if(!nodes.length) nodes=[...doc.getElementsByTagName("entry")];
+  return nodes.slice(0,40).map(it=>{
+    let link=txt(it,"link"); if(!link){const l=it.getElementsByTagName("link")[0]; link=l&&l.getAttribute("href")||""}
+    const desc=txt(it,"description")||txt(it,"summary");
+    const content=txt(it,"content:encoded")||txt(it,"content");
+    let img=null;
+    for(const tag of ["media:content","media:thumbnail","enclosure","image"]){
+      for(const n of it.getElementsByTagName(tag)){const u=n.getAttribute("url")||n.getAttribute("href")||(tag==="image"?txt(n,"url")||n.textContent.trim():""); const ty=n.getAttribute("type")||"";
+        if(u&&(!ty||ty.startsWith("image"))&&!/\.(mp4|mp3|m3u8)(\?|$)/i.test(u)){img=u;break}}
+      if(img) break;
+    }
+    if(!img) img=firstImg(content)||firstImg(desc);
+    const date=txt(it,"pubDate")||txt(it,"published")||txt(it,"updated")||txt(it,"dc:date");
+    return mk({title:strip(txt(it,"title")),link:link.trim(),date,desc:strip(desc),content,img:img?absUrl(img,link):null},feed,source);
+  }).filter(Boolean);
+}
+function fromJSON(items,feed,source){
+  return items.slice(0,40).map(x=>mk({title:strip(x.title),link:x.link,date:x.pubDate,desc:strip(x.description),content:x.content||"",img:x.thumbnail||(x.enclosure&&x.enclosure.link)||firstImg(x.content)||firstImg(x.description)},feed,source)).filter(Boolean);
+}
+
+function scrape(html,pg,source){
+  const doc=new DOMParser().parseFromString(html,"text/html"); const base=pg.u;
+  const map=new Map();
+  for(const a of doc.querySelectorAll("a[href]")){
+    const href=absUrl(a.getAttribute("href"),base); if(!href||!pg.rx.test(href)) continue;
+    const key=href.split("#")[0]; const e=map.get(key)||{t:"",img:null};
+    const t=(a.getAttribute("title")||a.textContent||"").replace(/\s+/g," ").trim();
+    if(t.length>e.t.length&&t.length<220) e.t=t;
+    let im=a.querySelector("img")||(a.closest("article,li,figure,.item,.card,.news,.box")||a.parentElement||a).querySelector("img");
+    if(im&&!e.img){const u=im.getAttribute("data-src")||im.getAttribute("data-lazy-src")||im.getAttribute("data-original")||im.getAttribute("src")||(im.getAttribute("srcset")||"").split(" ")[0]; if(u&&!/^data:|logo|icon|placeholder|blank|\.gif|\.svg/i.test(u)) e.img=absUrl(u,base); if(!e.t&&im.alt) e.t=im.alt.trim();}
+    map.set(key,e);
+  }
+  const now=Date.now(); let i=0; const out=[];
+  for(const [l,e] of map){ if(e.t.length<18) continue; const it=mk({title:e.t,link:l,date:new Date(now-(i++)*4*60000).toISOString(),desc:"",content:"",img:e.img},pg,source); if(it){it.est=1;out.push(it)} if(out.length>=30)break; }
+  return out;
+}
+function hash(s){let h=0;for(const c of String(s))h=(h*31+c.charCodeAt(0))|0;return Math.abs(h).toString(36)}
+function mk(r,feed,source){
+  if(!r.title||!r.link) return null;
+  let ts=Date.parse(r.date); if(!ts||ts>Date.now()+3600e3) ts=Date.now()-60000;
+  const text=r.title+" "+r.desc;
+  let cat=feed.cat||null;
+  if(!cat){ cat = KW.fb.test(r.title)&&!KW.eco.test(r.title)?"fb": KW.tr.test(text)?"tr": KW.eco.test(r.title)?"eco":"pol"; }
+  else if(cat!=="fb" && KW.tr.test(r.title)) cat="tr";
+  const cs=COUNTRIES.filter(c=>c[3].some(w=>text.includes(w))).map(c=>c[0]);
+  let local;
+  if(cat==="fb") local = feed.s==="eg" ? !/ريال مدريد|برشلونة|ليفربول|أرسنال|مانشستر|تشيلسي|بايرن|يوفنتوس|ميلان|إنتر|سان جيرمان|دوري أبطال أوروبا|الدوري الإنجليزي|الدوري الإسباني|الدوري الإيطالي|الدوري الألماني/.test(r.title) || FB_LOCAL.test(r.title) : FB_LOCAL.test(r.title);
+  else local = feed.s==="eg" ? !( /أمريكا|ترامب|روسيا|أوكرانيا|الصين|إيران|إسرائيل|غزة|أوروبا|فرنسا|ألمانيا|بريطانيا/.test(r.title) && !EG_RX.test(r.title) ) : EG_RX.test(r.title);
+  if(local && !cs.includes("eg")) cs.push("eg");
+  return {id:hash(r.link),t:r.title,l:r.link,ts,d:r.desc.slice(0,400),c:(r.content||"").length>600?r.content.slice(0,20000):"",img:r.img||null,src:source.id,cat,loc:local,cs};
+}
+
+/* =================== STATE =================== */
+let ITEMS=store.get("items",[]); // cached
+let LAST=store.get("last",0);
+let route={v:"home"}, filt={eg:"all",world:"all",fb:"eg",src:null,country:"all"}, openId=null, shown=24;
+let saved=store.get("saved",[]), fs=store.get("fs",18), srcStat=store.get("srcstat",{});
+let IMGFIX=store.get("imgfix",{});
+if(store.get("dark",matchMedia("(prefers-color-scheme: dark)").matches)) document.documentElement.classList.add("dark");
+document.documentElement.style.setProperty("--fs",fs+"px");
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const num=n=>Number(n).toLocaleString("ar-EG");
+function ago(ts){const m=Math.round((Date.now()-ts)/60000); if(m<1)return"الآن"; if(m<60)return`منذ ${num(m)} د`; const h=Math.round(m/60); if(h<24)return`منذ ${num(h)} س`; const d=Math.round(h/24); return d===1?"أمس":`منذ ${num(d)} أيام`}
+const imgOf=a=>a.img||IMGFIX[a.id]||null;
+const withImg=list=>list.filter(a=>imgOf(a));
+const byTime=l=>[...l].sort((a,b)=>b.ts-a.ts);
+
+/* =================== REFRESH =================== */
+let busy=false;
+async function refresh(manual){
+  if(busy) return; busy=true; $("#bRefresh").classList.add("spin");
+  const jobs=[];
+  for(const s of SOURCES){ for(const f of s.feeds) jobs.push({s,f}); for(const p of (s.pages||[])) jobs.push({s,f:p,page:1}); }
+  let done=0, got=[]; const total=jobs.length; setProg(0.04);
+  const stat={};
+  const run=async({s,f,page})=>{
+    let items=[];
+    if(page){ try{ items=scrape(await getText(f.u),f,s) }catch(e){} }
+    else { try{ const x=await getText(f.u); items=parseXML(x,f,s); }catch(e){ try{ items=fromJSON(await getFeedJSON(f.u),f,s);}catch(e2){} } }
+    stat[s.id]=(stat[s.id]||0)+items.length; got.push(...items);
+    done++; setProg(done/total);
+    if(done%4===0){ merge(got,false); softRender(); }
+  };
+  // concurrency 6
+  const q=[...jobs]; await Promise.all(Array.from({length:6},async()=>{while(q.length){await run(q.shift())}}));
+  merge(got,true); srcStat=stat; store.set("srcstat",stat);
+  LAST=Date.now(); store.set("last",LAST);
+  busy=false; $("#bRefresh").classList.remove("spin"); setProg(1); setTimeout(()=>setProg(0),600);
+  softRender(true); setSub();
+  if(manual) toast(got.length?`تم التحديث · ${num(withImg(ITEMS).length)} خبر`:"تعذّر التحديث، تأكد من الإنترنت");
+  fixImages();
+}
+function merge(newItems,final){
+  const m=new Map(); const seenT=new Set();
+  const old=new Map(ITEMS.map(a=>[a.id,a])); newItems=newItems.map(a=>a.est&&old.has(a.id)?{...a,ts:old.get(a.id).ts}:a);
+  for(const a of byTime([...newItems,...ITEMS])){ const k=a.t.replace(/[^؀-ۿa-z0-9]/gi,"").slice(0,38); if(m.has(a.id)||seenT.has(k)) continue; seenT.add(k); m.set(a.id,a); }
+  const cutoff=Date.now()-3*864e5;
+  ITEMS=[...m.values()].filter(a=>a.ts>cutoff).slice(0,700);
+  if(final){ try{ store.set("items",ITEMS.map(a=>({...a,c:a.c&&a.c.length<6000?a.c:""}))) }catch(e){} }
+}
+/* find og:image for items whose feed had none */
+let fixing=false;
+async function fixImages(){
+  if(fixing) return; fixing=true;
+  const need=byTime(ITEMS).filter(a=>!imgOf(a)&&!IMGFIX["x"+a.id]).slice(0,40);
+  const q=[...need];
+  await Promise.all(Array.from({length:4},async()=>{ while(q.length){ const a=q.shift();
+    try{ const h=await getText(a.l,10000); const m=h.match(/<meta[^>]+(?:property|name)=["'](?:og:image|twitter:image)["'][^>]*content=["']([^"']+)["']/i)||h.match(/<meta[^>]+content=["']([^"']+)["'][^>]*(?:property|name)=["'](?:og:image|twitter:image)["']/i);
+      if(m){ IMGFIX[a.id]=absUrl(m[1],a.l); } else IMGFIX["x"+a.id]=1;
+    }catch(e){ IMGFIX["x"+a.id]=1 }
+  }}));
+  store.set("imgfix",IMGFIX); fixing=false; softRender();
+}
+function setProg(p){$("#prog").style.width=(p*100)+"%"}
+let srT=null;
+function softRender(force){ if(openId && !force){renderNav();return} clearTimeout(srT); srT=setTimeout(()=>{ if(!openId) render(true) },force?0:250) }
+
+/* =================== VIEW HELPERS =================== */
+function photo(a,cls=""){const u=imgOf(a);return `<div class="ph ${cls}">${u?`<img src="${esc(u)}" loading="lazy" decoding="async" referrerpolicy="no-referrer" alt="" onload="this.classList.add('ok')" onerror="hideBroken(this)">`:""}</div>`}
+window.hideBroken=img=>{const card=img.closest("[data-id]"); if(card){ const it=ITEMS.find(x=>x.id===card.dataset.id); if(it){it.img=null;delete IMGFIX[it.id];IMGFIX["x"+it.id]=1} card.remove(); }};
+function srcBadge(a,showTime=true){const s=SRC[a.src]||{name:"",color:"#555"};return `<div class="src" style="--c:${s.color}"><i class="sl">${esc(ini(s.name))}</i><span>${esc(s.name)}</span>${showTime?`<em>${ago(a.ts)}</em>`:""}</div>`}
+const tagH=a=>`<span class="tag" style="--c:${CATS[a.cat].c}">${CATS[a.cat].n}</span>`;
+const cardG=(a,i)=>`<button class="gc" data-id="${a.id}" style="animation-delay:${Math.min(i%12,8)*30}ms">${photo(a)}<div class="b">${srcBadge(a)}<h3>${esc(a.t)}</h3>${a.d?`<p>${esc(a.d)}</p>`:""}</div></button>`;
+const cardR=(a,i)=>`<button class="row" data-id="${a.id}" style="animation-delay:${Math.min(i%12,8)*30}ms">${photo(a)}<div class="b">${srcBadge(a)}<h3>${esc(a.t)}</h3><div>${tagH(a)}</div></div></button>`;
+const cardS=a=>`<button class="sc" data-id="${a.id}">${photo(a)}<div class="b">${srcBadge(a)}<h3>${esc(a.t)}</h3></div></button>`;
+function diverse(list,n,perSrc=1){const out=[],cnt={};for(const a of list){if((cnt[a.src]||0)>=perSrc)continue;cnt[a.src]=(cnt[a.src]||0)+1;out.push(a);if(out.length>=n)break}return out}
+function feedList(list,emptyMsg){
+  list=withImg(byTime(list));
+  if(!list.length) return ITEMS.length||!busy?`<div class="empty"><div class="e">🗞️</div><b>${emptyMsg||"مفيش أخبار هنا دلوقتي"}</b>اسحب أو اضغط تحديث</div>`:skeleton();
+  const part=list.slice(0,shown);
+  return `<div class="grid">${part.map((a,i)=>i%5===0?cardG(a,i):cardR(a,i)).join("")}</div>${list.length>shown?`<button class="more" id="more">عرض المزيد (${num(list.length-shown)})</button>`:""}`;
+}
+const skeleton=()=>`<div class="grid">${Array.from({length:6},(_,i)=>`<div class="sk" style="height:${i%3?110:250}px"></div>`).join("")}</div>`;
+function chips(key,pool,opts){return `<div class="chips">${opts.map(([k,n])=>{const c=k==="all"?pool.length:pool.filter(a=>a.cat===k).length;return `<button class="chip ${filt[key]===k?"on":""}" data-f="${key}" data-v="${k}">${n} <b style="opacity:.55;font-size:11px">${num(c)}</b></button>`}).join("")}</div>`}
+const CAT_OPTS=[["all","الكل"],["pol","أخبار وسياسة"],["eco","اقتصاد ومال"],["fb","كورة"],["tr","نقل"]];
+const ttl=(t,s)=>`<div class="ttl"><h1>${t}</h1>${s?`<small>${s}</small>`:""}</div>`;
+
+/* =================== VIEWS =================== */
+const NAV=[["home","الرئيسية",'<path d="M3 11 12 4l9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>'],["eg","مصر",'<path d="M5 21V4m0 0h11l-2 4 2 4H5"/>'],["world","العالم",'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/>'],["fb","الكورة",'<circle cx="12" cy="12" r="9"/><path d="m12 7 4 3-1.5 4.5h-5L8 10z"/>'],["countries","الدول",'<rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/>']];
+function renderNav(){const cur=route.v==="country"?"countries":route.v;$("#nav").innerHTML=NAV.map(([k,n,p])=>`<button data-nav="${k}" class="${cur===k?"on":""}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${p}</svg>${n}</button>`).join("")}
+function vHome(){
+  const all=withImg(byTime(ITEMS));
+  if(!all.length) return busy||!LAST?`<div class="sk" style="aspect-ratio:4/4.4;margin-top:12px;border-radius:24px"></div><div style="height:16px"></div>${skeleton()}`:feedList([]);
+  const hero=diverse(all.slice(0,80),7);
+  let h=`<div class="hero" id="hero">${hero.map(a=>`<button class="hc" data-id="${a.id}">${photo(a)}<div class="ov"></div><div class="ct">${srcBadge(a)}<h3>${esc(a.t)}</h3>${a.d?`<p>${esc(a.d)}</p>`:""}</div></button>`).join("")}</div><div class="dots" id="dots" dir="rtl">${hero.map((_,i)=>`<i class="${i?"":"on"}"></i>`).join("")}</div>`;
+  const srcCount={}; all.forEach(a=>srcCount[a.src]=(srcCount[a.src]||0)+1);
+  h+=`<div class="chips">${SOURCES.filter(s=>srcCount[s.id]).map(s=>`<button class="chip" data-srcv="${s.id}" style="--c:${s.color}"><i class="sl">${esc(ini(s.name))}</i>${esc(s.name)}</button>`).join("")}</div>`;
+  const rows=[["مصر الآن","#c8102e",all.filter(a=>a.loc&&a.cat!=="fb"),"eg"],["الكورة","#16a34a",all.filter(a=>a.cat==="fb"),"fb"],["اقتصاد ومال","#0d9488",all.filter(a=>a.cat==="eco"),"eg:eco"],["العالم","#1d4ed8",all.filter(a=>!a.loc&&a.cat!=="fb"),"world"],["نقل ومواصلات","#2563eb",all.filter(a=>a.cat==="tr"),"eg:tr"]];
+  for(const [t,c,l,go] of rows){ if(!l.length) continue; h+=`<div class="sec" style="--c:${c}"><h2><i></i>${t}</h2><button data-go="${go}">عرض الكل ‹</button></div><div class="hs">${diverse(l,12,3).map(cardS).join("")}</div>`; }
+  h+=`<div class="sec"><h2><i></i>آخر الأخبار</h2></div>${feedList(all)}`;
+  return h;
+}
+function vEg(){const pool=withImg(ITEMS.filter(a=>a.loc&&a.cat!=="fb"||(a.loc&&filt.eg==="fb")));const p2=withImg(ITEMS.filter(a=>a.loc));return ttl("أخبار مصر",`${num(p2.length)} خبر`)+chips("eg",p2,CAT_OPTS)+feedList(filt.eg==="all"?p2:p2.filter(a=>a.cat===filt.eg))}
+function vWorld(){const p=withImg(ITEMS.filter(a=>!a.loc));return ttl("العالم",`${num(p.length)} خبر`)+chips("world",p,CAT_OPTS)+feedList(filt.world==="all"?p:p.filter(a=>a.cat===filt.world))}
+function vFb(){const p=withImg(ITEMS.filter(a=>a.cat==="fb"));const l=p.filter(a=>filt.fb==="eg"?a.loc:!a.loc);return ttl("الكورة",`${num(p.length)} خبر`)+`<div class="seg"><button data-fb="eg" class="${filt.fb==="eg"?"on":""}">🇪🇬 محلية</button><button data-fb="world" class="${filt.fb==="world"?"on":""}">🌍 عالمية</button></div>`+feedList(l)}
+function vCountries(){const p=withImg(ITEMS);return ttl("حسب الدولة")+`<div class="cg">${COUNTRIES.map(([k,n,f])=>{const c=p.filter(a=>a.cs.includes(k)).length;return `<button class="cc" data-country="${k}"><span class="f">${f}</span><b>${n}</b><small>${c?num(c)+" خبر":"لا جديد"}</small></button>`}).join("")}</div>`+ttl("المصادر")+`<div class="srcgrid">${SOURCES.map(s=>{const c=p.filter(a=>a.src===s.id).length;return `<button class="srcc ${c?"":"off"}" data-srcv="${s.id}" style="--c:${s.color}"><i class="sl">${esc(ini(s.name))}</i><div><b>${esc(s.name)}</b><small>${c?num(c)+" خبر":"غير متاح الآن"}</small></div></button>`}).join("")}</div>`}
+function vCountry(){const c=COUNTRIES.find(x=>x[0]===route.c);const p=withImg(ITEMS.filter(a=>a.cs.includes(c[0])));return `<div style="margin-top:12px"><button class="chip" data-nav="countries">› كل الدول</button></div>`+ttl(`${c[2]} ${c[1]}`,`${num(p.length)} خبر`)+chips("country",p,CAT_OPTS)+feedList(filt.country==="all"?p:p.filter(a=>a.cat===filt.country),`لا توجد أخبار عن ${c[1]} حاليًا`)}
+function vSource(){const s=SRC[route.s];const p=ITEMS.filter(a=>a.src===s.id);return `<div style="margin-top:12px"><button class="chip" data-nav="countries">› كل المصادر</button></div>`+ttl(s.name,`${num(withImg(p).length)} خبر`)+feedList(p,"لم نستطع جلب أخبار هذا المصدر الآن")}
+function vSearch(){return `<div class="sbox"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--mute)"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="q" placeholder="ابحث… الأهلي، الدولار، المترو" value="${esc(route.q||"")}" autocomplete="off"></div><div id="sres"></div>`}
+const norm=s=>String(s||"").replace(/[أإآ]/g,"ا").replace(/ة/g,"ه").replace(/ى/g,"ي");
+function searchRes(){const q=norm((route.q||"").trim());if(!q)return `<div class="empty"><div class="e">🔎</div><b>ابحث في كل الأخبار</b></div>`;return feedList(ITEMS.filter(a=>norm(a.t+" "+a.d).includes(q)),"مفيش نتائج")}
+function vSaved(){return ttl("المحفوظات",`${num(saved.length)}`)+(saved.length?`<div class="grid">${saved.map(cardR).join("")}</div>`:`<div class="empty"><div class="e">🔖</div><b>مفيش محفوظات لسه</b>اضغط علامة الحفظ داخل أي خبر</div>`)}
+function render(keepScroll){
+  const f={home:vHome,eg:vEg,world:vWorld,fb:vFb,countries:vCountries,country:vCountry,source:vSource,search:vSearch,saved:vSaved}[route.v]||vHome;
+  const y=scrollY; $("#view").innerHTML=f(); renderNav(); if(keepScroll) scrollTo(0,y);
+  if(route.v==="search"){$("#sres").innerHTML=searchRes();const q=$("#q");q.oninput=()=>{route.q=q.value;shown=24;$("#sres").innerHTML=searchRes()};if(!route.q)setTimeout(()=>q.focus(),60)}
+  const hero=$("#hero");if(hero)hero.onscroll=()=>{const r=hero.getBoundingClientRect(),mid=r.left+r.width/2;let i=0,bd=1e9;[...hero.children].forEach((c,j)=>{const b=c.getBoundingClientRect(),d=Math.abs(b.left+b.width/2-mid);if(d<bd){bd=d;i=j}});document.querySelectorAll("#dots i").forEach((d,j)=>d.classList.toggle("on",i===j))};
+}
+function go(v,extra={}){route={v,...extra};shown=24;render();scrollTo(0,0)}
+function setSub(){$("#sub").innerHTML=LAST?`<span class="dot"></span>تحديث ${ago(LAST)} · ${num(withImg(ITEMS).length)} خبر`:"أخبارك بالصور من كل المصادر"}
+
+/* =================== READER =================== */
+function findA(id){return ITEMS.find(a=>a.id===id)||saved.find(a=>a.id===id)}
+function sanitize(html,base){
+  const d=document.createElement("div"); d.innerHTML=html;
+  d.querySelectorAll("script,style,iframe,form,input,button,noscript,svg,video,audio,object,embed,aside,nav,footer,header").forEach(n=>n.remove());
+  d.querySelectorAll("a").forEach(a=>{const s=document.createElement("span");s.innerHTML=a.innerHTML;a.replaceWith(s)});
+  d.querySelectorAll("img").forEach(im=>{const src=im.getAttribute("data-src")||im.getAttribute("data-lazy-src")||im.getAttribute("src");const u=src&&absUrl(src,base);if(!u||/\.gif|pixel|logo|icon|avatar|ads?[\/_]/i.test(u)){im.remove();return}[...im.attributes].forEach(at=>im.removeAttribute(at.name));im.src=u;im.loading="lazy";im.referrerPolicy="no-referrer";im.setAttribute("onerror","this.remove()")});
+  d.querySelectorAll("*").forEach(n=>{[...n.attributes].forEach(at=>{if(n.tagName!=="IMG")n.removeAttribute(at.name)})});
+  d.querySelectorAll("p,div,span").forEach(n=>{if(!n.textContent.trim()&&!n.querySelector("img"))n.remove()});
+  return d.innerHTML;
+}
+function bodyFromFeed(a){
+  if(a.c){return sanitize(a.c,a.l)}
+  return a.d?`<p>${esc(a.d)}</p>`:"";
+}
+async function fullText(a){
+  try{
+    const html=await getText(a.l,15000);
+    const doc=new DOMParser().parseFromString(html,"text/html");
+    const base=doc.createElement("base");base.href=a.l;doc.head&&doc.head.appendChild(base);
+    if(window.Readability){const r=new Readability(doc,{charThreshold:300}).parse(); if(r&&r.content&&strip(r.content).length>200) return sanitize(r.content,a.l);}
+    const root=doc.querySelector("article,[itemprop=articleBody],.article-body,.articleBody,.news-content,.ArticleDetails,#articleBody,.entry-content,main")||doc.body;
+    if(root){ const parts=[]; root.querySelectorAll("p,img,h2,h3").forEach(n=>{ if(n.tagName==="IMG"){ if(parts.length) parts.push(n.outerHTML) } else { const t=n.textContent.replace(/\s+/g," ").trim(); if(t.length>40) parts.push(`<${n.tagName.toLowerCase()}>${esc(t)}</${n.tagName.toLowerCase()}>`) } });
+      const h=parts.join(""); if(strip(h).length>200) return sanitize(h,a.l); }
+  }catch(e){}
+  try{
+    const r=await tfetch("https://r.jina.ai/"+a.l,20000); if(r.ok){const md=await r.text(); const body=md.split(/Markdown Content:\s*/)[1]||md;
+      const html=body.split(/\n{2,}/).map(p=>{p=p.trim(); const im=p.match(/^!\[[^\]]*\]\(([^)\s]+)/); if(im) return `<img src="${esc(im[1])}">`; if(/^#{1,6}\s/.test(p)) return `<h3>${esc(p.replace(/^#+\s*/,""))}</h3>`; p=p.replace(/!\[[^\]]*\]\([^)]*\)/g,"").replace(/\[([^\]]*)\]\([^)]*\)/g,"$1").replace(/[*_`>]/g,"").trim(); return p.length>40?`<p>${esc(p)}</p>`:""}).join("");
+      if(strip(html).length>200) return sanitize(html,a.l);}
+  }catch(e){}
+  return null;
+}
+async function openReader(id,noPush){
+  const a=findA(id); if(!a) return; openId=id;
+  const s=SRC[a.src]||{name:"",color:"#555"}, isS=saved.some(x=>x.id===id);
+  const rel=withImg(byTime(ITEMS.filter(x=>x.id!==id&&x.cat===a.cat&&x.loc===a.loc))).slice(0,4);
+  $("#reader").innerHTML=`<div class="rbar"><button class="ib" id="rClose" aria-label="رجوع"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="m9 6 6 6-6 6"/></svg></button><div class="sp"></div><div class="fsz"><button id="fsm">A-</button><button id="fsp">A+</button></div><button class="ib" id="rShare" aria-label="مشاركة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v13M7 8l5-5 5 5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg></button><button class="ib" id="rSave" style="${isS?"color:var(--accent)":""}"><svg viewBox="0 0 24 24" fill="${isS?"currentColor":"none"}" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M6 3h12v18l-6-4-6 4z"/></svg></button><div class="rprog" id="rprog"></div></div>
+  <div class="wrap" style="padding-bottom:calc(40px + var(--safe-b))">
+   ${imgOf(a)?photo(a,"rimg"):""}
+   <div class="rmeta" style="--c:${s.color}"><i class="sl">${esc(ini(s.name))}</i><div><small>المصدر</small><b>${esc(s.name)}</b></div><span style="margin-inline-start:auto;color:var(--mute);font-size:12.5px">${ago(a.ts)}</span></div>
+   <h1 class="rh">${esc(a.t)}</h1>
+   <div style="margin-bottom:14px">${tagH(a)}</div>
+   <div class="body" id="rbody">${bodyFromFeed(a)}<div class="loading" id="rload"><span class="spn"></span>جاري تحميل الخبر كاملًا…</div></div>
+   <div class="endnote">نقلًا عن: <b style="color:var(--ink)">${esc(s.name)}</b></div>
+   ${rel.length?`<div class="sec"><h2><i></i>أخبار ذات صلة</h2></div><div class="grid">${rel.map(cardR).join("")}</div>`:""}
+  </div>`;
+  const R=$("#reader"); R.scrollTop=0; R.classList.add("open"); document.documentElement.style.overflow="hidden";
+  if(!noPush) history.pushState({r:1},"");
+  const full=await fullText(a);
+  if(openId!==id) return;
+  const rb=$("#rbody"); if(!rb) return;
+  if(full){ // drop duplicate lead image
+    const tmp=document.createElement("div");tmp.innerHTML=full; const fi=tmp.querySelector("img"); if(fi&&imgOf(a)&&fi.src.split("?")[0].split("/").pop()===imgOf(a).split("?")[0].split("/").pop()) fi.remove();
+    rb.innerHTML=tmp.innerHTML;
+  } else { const l=$("#rload"); if(l) l.remove(); rb.innerHTML=`${a.d?`<p>${esc(a.d)}</p>`:""}<div class="loading">تعذّر تحميل نص الخبر الآن. <button class="chip" data-retry="${a.id}">إعادة المحاولة</button></div>`; }
+}
+function closeReader(fromPop){const R=$("#reader");R.classList.remove("open");document.documentElement.style.overflow="";openId=null;if(!fromPop&&history.state&&history.state.r)history.back();}
+addEventListener("popstate",()=>{if(openId)closeReader(true)});
+$("#reader").addEventListener("scroll",e=>{const R=e.target,p=R.scrollTop/((R.scrollHeight-R.clientHeight)||1);const b=$("#rprog");if(b)b.style.width=(p*100)+"%"},{passive:true});
+function toast(t){const el=$("#toast");el.textContent=t;el.classList.add("on");clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove("on"),2000)}
+
+/* =================== EVENTS =================== */
+document.addEventListener("click",e=>{
+  const t=e.target.closest("button"); if(!t) return;
+  if(t.id==="rClose") return closeReader();
+  if(t.id==="fsp"||t.id==="fsm"){fs=Math.max(14,Math.min(26,fs+(t.id==="fsp"?1:-1)));document.documentElement.style.setProperty("--fs",fs+"px");store.set("fs",fs);return}
+  if(t.id==="rSave"){const a=findA(openId),i=saved.findIndex(s=>s.id===openId);if(i>=0){saved.splice(i,1);toast("اتشال من المحفوظات")}else{saved.unshift({...a,img:imgOf(a)});toast("اتحفظ ✓")}store.set("saved",saved.slice(0,150));t.style.color=i>=0?"":"var(--accent)";t.querySelector("svg").setAttribute("fill",i>=0?"none":"currentColor");return}
+  if(t.id==="rShare"){const a=findA(openId);if(navigator.share)navigator.share({title:a.t,text:a.t,url:location.href.split("#")[0]}).catch(()=>{});else navigator.clipboard?.writeText(a.t).then(()=>toast("اتنسخ العنوان"));return}
+  if(t.dataset.retry) return openReader(t.dataset.retry,true);
+  if(t.dataset.id) return openReader(t.dataset.id,!!openId);
+  if(t.dataset.nav) return go(t.dataset.nav);
+  if(t.dataset.country){filt.country="all";return go("country",{c:t.dataset.country})}
+  if(t.dataset.srcv) return go("source",{s:t.dataset.srcv});
+  if(t.dataset.go){const[v,k]=t.dataset.go.split(":");if(k)filt[v]=k;return go(v)}
+  if(t.dataset.f){filt[t.dataset.f]=t.dataset.v;shown=24;render(true);return}
+  if(t.dataset.fb){filt.fb=t.dataset.fb;shown=24;render(true);return}
+  if(t.id==="more"){shown+=24;render(true);return}
+  if(t.id==="bSearch") return go("search");
+  if(t.id==="bSaved") return go("saved");
+  if(t.id==="bRefresh") return refresh(true);
+  if(t.id==="bTheme"){store.set("dark",document.documentElement.classList.toggle("dark"));return}
+});
+addEventListener("scroll",()=>{ if(openId) return; const m=$("#more"); if(m&&m.getBoundingClientRect().top<innerHeight+400){shown+=24;render(true)} },{passive:true});
+document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible" && Date.now()-LAST>5*60e3) refresh(false) });
+
+/* =================== BOOT =================== */
+render(); setSub(); setInterval(setSub,60000);
+refresh(false);
+if("serviceWorker" in navigator) addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
+</script>
+</body>
+</html>
