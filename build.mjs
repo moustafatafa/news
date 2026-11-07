@@ -132,12 +132,13 @@ function classify(it, feed){
 }
 
 /* ---------------- NET ---------------- */
-const PROXY=[u=>"https://api.allorigins.win/raw?url="+encodeURIComponent(u), u=>"https://api.codetabs.com/v1/proxy/?quest="+encodeURIComponent(u)];
+const PROXY=[u=>"https://api.allorigins.win/raw?url="+encodeURIComponent(u), u=>"https://api.codetabs.com/v1/proxy/?quest="+encodeURIComponent(u), u=>({url:"https://r.jina.ai/"+u,headers:{"X-Return-Format":"html"}})];
 const blocked=new Map(); // host -> direct failures
 async function once(url,ms){
+  let extra={}; if(typeof url==="object"){extra=url.headers;url=url.url}
   const c=new AbortController(); const t=setTimeout(()=>c.abort(),ms);
   try{
-    const r=await fetch(url,{signal:c.signal,redirect:"follow",headers:{"User-Agent":UA,"Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8","Accept-Language":"ar,en;q=0.8"}});
+    const r=await fetch(url,{signal:c.signal,redirect:"follow",headers:{...extra,"User-Agent":UA,"Accept":"text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8","Accept-Language":"ar,en;q=0.8"}});
     if(!r.ok) throw new Error("HTTP "+r.status);
     const buf=Buffer.from(await r.arrayBuffer());
     if(buf.length<200) throw new Error("empty");
@@ -167,7 +168,25 @@ const abs=(u,b)=>{try{return new URL(String(u).replace(/&amp;/g,"&").trim(),b).h
 const badImg=u=>!u||/^data:|logo|icon|placeholder|blank|default|avatar|\.gif(\?|$)|\.svg(\?|$)/i.test(u);
 const normLink=l=>{ try{ const u=new URL(l); u.hash=""; ["utm_source","utm_medium","utm_campaign"].forEach(k=>u.searchParams.delete(k)); return u.href }catch(e){ return l } };
 
+function decodeEnt(t){return String(t||"").replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g,"$1").replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/&quot;/g,'"').replace(/&#39;|&apos;/g,"'").replace(/&#(\d+);/g,(m,n)=>String.fromCodePoint(+n)).replace(/&amp;/g,"&")}
+function looseFeed(xml, feed, src){
+  const items=xml.match(/<item[\s>][\s\S]*?<\/item>/gi)||xml.match(/<entry[\s>][\s\S]*?<\/entry>/gi)||[];
+  const tag=(b,n)=>{const m=b.match(new RegExp(`<${n}(?:\\s[^>]*)?>([\\s\\S]*?)<\\/${n}>`,"i"));return m?decodeEnt(m[1]).trim():""};
+  return items.slice(0,40).map(b=>{
+    let link=tag(b,"link"); if(!link){const m=b.match(/<link[^>]+href=["']([^"']+)/i);link=m?m[1]:""} link=normLink(decodeEnt(link).trim());
+    const desc=tag(b,"description")||tag(b,"summary"), content=tag(b,"content:encoded");
+    let img=(b.match(/<(?:media:content|media:thumbnail|enclosure)[^>]+url=["']([^"']+)/i)||[])[1]||(String(content+desc).match(/<img[^>]+src=["']([^"']+)/i)||[])[1]||null;
+    if(img) img=decodeEnt(img);
+    let ts=Date.parse(tag(b,"pubDate")||tag(b,"published")||tag(b,"updated")||tag(b,"dc:date")); if(!ts||ts>Date.now()+36e5) ts=0;
+    const t=stripTags(tag(b,"title")); if(!t||!link) return null;
+    return {t,l:link,ts,d:stripTags(desc).slice(0,220),img:img&&!badImg(img)?abs(img,link):null,src:src.id,feed};
+  }).filter(Boolean);
+}
 function parseFeed(xml, feed, src){
+  try{ const r=strictFeed(xml,feed,src); if(r.length) return r; }catch(e){}
+  return looseFeed(xml,feed,src);
+}
+function strictFeed(xml, feed, src){
   const doc=new JSDOM(xml.replace(/^﻿/,""),{contentType:"text/xml",virtualConsole:vc}).window.document;
   let nodes=[...doc.getElementsByTagName("item")]; if(!nodes.length) nodes=[...doc.getElementsByTagName("entry")];
   const T=(el,n)=>{const x=el.getElementsByTagName(n)[0];return x?x.textContent.trim():""};
