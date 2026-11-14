@@ -1,0 +1,47 @@
+{
+ "updated": 1794689763993,
+ "stat": {
+  "ahramsport": 10,
+  "filgoal": 43,
+  "youm7": 200,
+  "yallakora": 43,
+  "masryalyoum": 20,
+  "almal": 195,
+  "shorouk": 94,
+  "elwatan": 40,
+  "alborsa": 20,
+  "masrawy": 80,
+  "cnn": 20,
+  "skynews": 40,
+  "bbc": 23,
+  "aljazeera": 25,
+  "france24": 24,
+  "dw": 40,
+  "independent": 40,
+  "amwal": 0,
+  "okaz": 40,
+  "aawsat": 40,
+  "rt": 40,
+  "anadolu": 30,
+  "euronews": 40,
+  "ahram": 0,
+  "akhbarelyom": 40,
+  "dostor": 0,
+  "alarabiya": 40
+ },
+ "errs": {
+  "amwal": "0 items: 275138 <!DOCTYPE html> <html dir=\"rtl\" lang=\"ar\"> <head> <meta charset=\"UTF-8\"> <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\"> <meta name=\"viewport\"",
+  "ahram": "blocked page",
+  "dostor": "blocked page",
+  "alarabiya": "0 items: 180140 <html lang=\"ar\" dir=\"rtl\"> <head> <meta charset=\"utf-8\"> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> <title>خطوة إضافية و"
+ },
+ "pages": 260,
+ "ok": 260,
+ "proxied": [
+  "gate.ahram.org.eg",
+  "akhbarelyom.com",
+  "www.dostor.org",
+  "www.alarabiya.net",
+  "arabic.euronews.com"
+ ]
+}
