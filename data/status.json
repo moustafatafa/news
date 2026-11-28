@@ -1,0 +1,52 @@
+{
+ "updated": 1795870439435,
+ "stat": {
+  "yallakora": 49,
+  "filgoal": 41,
+  "ahramsport": 10,
+  "youm7": 160,
+  "masryalyoum": 20,
+  "almal": 188,
+  "shorouk": 91,
+  "masrawy": 75,
+  "elwatan": 40,
+  "alborsa": 20,
+  "cnn": 20,
+  "skynews": 40,
+  "bbc": 25,
+  "aljazeera": 25,
+  "amwal": 0,
+  "dw": 40,
+  "france24": 24,
+  "independent": 40,
+  "rt": 40,
+  "anadolu": 30,
+  "aawsat": 40,
+  "okaz": 40,
+  "euronews": 40,
+  "alarabiya": 0,
+  "dostor": 0,
+  "ahram": 0,
+  "akhbarelyom": 40
+ },
+ "errs": {
+  "amwal": "0 items: 276433 <!DOCTYPE html> <html dir=\"rtl\" lang=\"ar\"> <head> <meta charset=\"UTF-8\"> <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\"> <meta name=\"viewport\"",
+  "alarabiya": "0 items: 180139 <html lang=\"ar\" dir=\"rtl\"> <head> <meta charset=\"utf-8\"> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> <title>خطوة إضافية و | 0 items: 180070 <html lang=\"ar\" dir=\"rtl\"> <head> <meta charset=\"utf-8\"> <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"> <title>خطوة إضافية و",
+  "dostor": "blocked page",
+  "ahram": "blocked page",
+  "youm7": "HTTP 422 | HTTP 422"
+ },
+ "pages": 260,
+ "ok": 260,
+ "proxied": [
+  "akhbarelyom.com",
+  "gate.ahram.org.eg",
+  "www.dostor.org",
+  "www.alarabiya.net",
+  "www.youm7.com",
+  "arabic.euronews.com",
+  "almalnews.com",
+  "www.france24.com",
+  "www.dw.com"
+ ]
+}
